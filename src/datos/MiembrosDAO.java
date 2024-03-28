@@ -10,17 +10,16 @@ public class MiembrosDAO {
 
     public void agregarMiembro(Miembros miembros){
         try (Connection conexion = DriverManager.getConnection(URL,USUARIO,CONTRASENA)) {
-            String query = "INSERT INTO miembros (ID,nombre,apellido,fecha_nacimiento,genero,direccion,correo_electronico,telefono) VALUES (?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO miembros (nombre,apellido,fecha_nacimiento,genero,direccion,correo_electronico,telefono) VALUES (?,?,?,?,?,?,?)";
 
             try(PreparedStatement statement = conexion.prepareStatement(query)){
-                statement.setString(1, miembros.getId());
-                statement.setString(2, miembros.getNombre());
-                statement.setString(3, miembros.getApellido());
-                statement.setDate(4, new java.sql.Date(miembros.getFnaci().getTime()));
-                statement.setString(5,miembros.getGenero());
-                statement.setString(6,miembros.getDireccion());
-                statement.setString(7,miembros.getEmail());
-                statement.setString(8, miembros.getTelefono());
+                statement.setString(1, miembros.getNombre());
+                statement.setString(2, miembros.getApellido());
+                statement.setDate(3, new java.sql.Date(miembros.getFnaci().getTime()));
+                statement.setString(4,miembros.getGenero());
+                statement.setString(5,miembros.getDireccion());
+                statement.setString(6,miembros.getEmail());
+                statement.setString(7, miembros.getTelefono());
 
                 statement.execute();
                 System.out.println("Datos registrados correctamente en " + URL);

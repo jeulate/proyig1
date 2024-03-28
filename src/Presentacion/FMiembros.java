@@ -15,7 +15,6 @@ import java.util.logging.SimpleFormatter;
 
 public class FMiembros {
     private JPanel PPrincipal;
-    private JTextField txtID;
     private JTextField txtNombre;
     private JTextField txtApellido;
     private JTextField txtFecNac;
@@ -38,7 +37,6 @@ public class FMiembros {
                     formato.setLenient(false);
                     Date fechanacimiento = formato.parse(txtFecNac.getText());
                     Miembros miembros = new Miembros(
-                            txtID.getText(),
                             txtNombre.getText(),
                             txtApellido.getText(),
                             fechanacimiento,

@@ -24,8 +24,7 @@ public class RegistroMiembros {
         miembrosDAO.cargarDatosenTabla(modeloTabla);
     }
     private boolean esPersonaValida(Miembros miembros){
-        return !miembros.getId().isEmpty() &&
-                !miembros.getNombre().isEmpty() &&
+        return !miembros.getNombre().isEmpty() &&
                 !miembros.getApellido().isEmpty() &&
                 !miembros.getFnaci().toString().isEmpty() &&
                 !miembros.getGenero().isEmpty() &&

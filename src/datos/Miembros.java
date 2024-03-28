@@ -3,7 +3,6 @@ package datos;
 import java.util.Date;
 
 public class Miembros {
-    private String id;
     private String nombre;
     private String apellido;
     private Date fnaci;
@@ -12,8 +11,7 @@ public class Miembros {
     private String email;
     private String telefono;
 
-    public Miembros(String id, String nombre, String apellido, Date fnaci, String genero, String direccion, String email, String telefono) {
-        this.id = id;
+    public Miembros( String nombre, String apellido, Date fnaci, String genero, String direccion, String email, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.fnaci = fnaci;
@@ -23,13 +21,6 @@ public class Miembros {
         this.telefono = telefono;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
