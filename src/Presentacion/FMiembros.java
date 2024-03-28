@@ -34,7 +34,8 @@ public class FMiembros {
                 RegistroMiembros registroMiembros = new RegistroMiembros();
                 registroMiembros.setMiembrosDAO(miembrosDAO);
                 try{
-                    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+                    formato.setLenient(false);
                     Date fechanacimiento = formato.parse(txtFecNac.getText());
                     Miembros miembros = new Miembros(
                             txtID.getText(),
