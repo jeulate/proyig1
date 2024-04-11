@@ -17,7 +17,21 @@ public class RelacionesDAO extends BaseDAO<Relaciones> {
         campos.put("tipo_relacion",relacion.getTipo_relacion());
 
 
-
         this.insertar(Tablas.RELACIONES.getTableName(), campos);
     }
+
+    public List<Relaciones> obtenerRelaciones() throws SQLException {
+        List<Relaciones> relaciones =
+                obtenerTodos(
+                        Tablas.RELACIONES.getTableName(),
+                        rs ->
+                                new Relaciones(
+                                        rs.getInt("miembro1_id"),
+                                        rs.getInt("miembro2_id"),
+                                        rs.getString("tipo_relacion")));
+
+        return relaciones;
+    }
 }
+
+

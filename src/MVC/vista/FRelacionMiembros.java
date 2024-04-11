@@ -39,7 +39,7 @@ public class FRelacionMiembros {
         cargarMiembro1();
         cargarMiembro2();
 
-        String[] columnas = {"ID", "Miembro 1", "Miembro 2","Relacion"};
+        String[] columnas = {"Miembro 1", "Miembro 2","Relacion"};
         modeloTabla = new DefaultTableModel(columnas,0);
         tablaDatos = new JTable(modeloTabla);
 
@@ -72,7 +72,6 @@ public class FRelacionMiembros {
                 List<Miembros> miembros = miembrosController.obtenerMiembros();
 
                 limpiarTabla(modeloTabla);
-//                    modeloTabla = new DefaultTableModel(columnas,0);
 
                 for (Relaciones relacion : relaciones) {
 
