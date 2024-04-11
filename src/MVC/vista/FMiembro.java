@@ -2,6 +2,7 @@ package MVC.vista;
 
 import MVC.controlador.MiembrosController;
 import MVC.modelo.entity.Miembros;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,19 +19,26 @@ public class FMiembro {
 
 
     private JPanel PPMiembro;
+
     private JTextField txtNombre;
     private JTextField txtApellido;
-    private JTextField txtFecNac;
+    private JDateChooser txtFecNac;
     private JRadioButton rdFemale;
     private JRadioButton rdMale;
     private JTextField txtDireccion;
     private JTextField txtEmail;
     private JTextField txtTelef;
     private JButton btnRegistrarMiembro;
+
     private JTable tablaDatos;
     private JButton btnMostrar;
+    private JPanel paneFecNac;
+
     private DefaultTableModel modeloTabla;
+
+    private JDateChooser fechaVueltaChosser;
     private List<Miembros> datosCargados = new ArrayList<>();
+
     public FMiembro(){
         miembrosController = new MiembrosController();
 
@@ -41,21 +49,22 @@ public class FMiembro {
         rdFemale.setText("F");
         rdMale.setText("M");
 
+        txtFecNac =  new JDateChooser();
+        paneFecNac.add(txtFecNac);
+
+
         String[] columnas = {"ID", "Nombre", "Apellido","Fecha Nac.", "Sexo", "Direccion","Email","Telefono"};
         modeloTabla = new DefaultTableModel(columnas,0);
         tablaDatos = new JTable(modeloTabla);
-
-        JScrollPane scrollPane =new JScrollPane(tablaDatos);
-        PPMiembro.add(scrollPane);
 
 
         btnRegistrarMiembro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+//                try {
                     SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
                     formato.setLenient(false);
-                    Date Fechanac = formato.parse(txtFecNac.getText());
+                    Date Fechanac = txtFecNac.getDate();
 
                     // Verificar si hay un botón seleccionado antes de obtener el comando de acción
                     String genero = "";
@@ -92,9 +101,9 @@ public class FMiembro {
                     miembrosController.registrarNuevoMiembro(miembro);
 
 //                    controlador.registrarMiembro(miembros);
-                }catch (ParseException ex){
-                        ex.printStackTrace();
-                }
+//                }catch (ParseException ex){
+//                        ex.printStackTrace();
+//                }
             }
         });
         btnMostrar.addActionListener(new ActionListener() {
@@ -140,7 +149,7 @@ public class FMiembro {
             JFrame frame = new JFrame("Registro de Miembros");
             frame.setContentPane(new FMiembro().PPMiembro);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(900,400);
+            frame.setSize(700,600);
             frame.setVisible(true);
         });
     }
