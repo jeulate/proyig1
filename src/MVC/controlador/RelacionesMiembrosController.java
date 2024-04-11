@@ -1,6 +1,5 @@
 package MVC.controlador;
 
-import MVC.modelo.MiembrosDAO;
 import MVC.modelo.RelacionesDAO;
 import MVC.modelo.entity.Relaciones;
 
@@ -13,7 +12,8 @@ public class RelacionesMiembrosController {
     this.relacionesDAO = new RelacionesDAO();
   }
 
-  public void gestionarNuevaRelacion() {
-
+  public void registrarNuevaRelacionMiembro(Relaciones relaciones) {
+    this.relacionesDAO.agregarRelacion(relaciones);
+    System.out.println("Registro Exitoso");
   }
 }

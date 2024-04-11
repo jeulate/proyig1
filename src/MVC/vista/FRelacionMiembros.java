@@ -3,6 +3,7 @@ package MVC.vista;
 import MVC.controlador.MiembrosController;
 import MVC.controlador.RelacionesMiembrosController;
 import MVC.modelo.entity.Miembros;
+import MVC.modelo.entity.Relaciones;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -38,7 +39,18 @@ public class FRelacionMiembros {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int indexMiembro1 = comboMiembro1.getSelectedIndex();
-                modeloComboMiembro1.getElementAt(indexMiembro1).getId();
+                Miembros miembros1 = modeloComboMiembro1.getElementAt(indexMiembro1);
+                String relacion = (String) comboRelacion.getSelectedItem();
+                int indexMiembro2 = comboMiembro2.getSelectedIndex();
+                Miembros miembros2 = modeloComboMiembro2.getElementAt(indexMiembro2);
+
+                Relaciones relaciones = new Relaciones(
+                        miembros1.getId(),
+                        miembros2.getId(),
+                        relacion
+                );
+
+                relacionesMiembrosController.registrarNuevaRelacionMiembro(relaciones);
 
             }
         });
