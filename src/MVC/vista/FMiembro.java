@@ -57,6 +57,8 @@ public class FMiembro {
         modeloTabla = new DefaultTableModel(columnas,0);
         tablaDatos = new JTable(modeloTabla);
 
+        JScrollPane scrollPane =new JScrollPane(tablaDatos);
+        PPMiembro.add(scrollPane);
 
         btnRegistrarMiembro.addActionListener(new ActionListener() {
             @Override
