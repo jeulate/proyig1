@@ -1,3 +1,5 @@
 package MVC.modelo;
 
-public class DiezmosDAO {}
+import MVC.modelo.entity.Diezmos;
+
+public class DiezmosDAO extends BaseDAO<Diezmos> {}

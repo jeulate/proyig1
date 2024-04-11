@@ -1,11 +1,11 @@
 package MVC.modelo.entity;
 
-public class Asistencia_eventos  {
+public class AsistenciaEventos {
     private int miembro_id;
     private int evento_id;
     private Boolean asistio;
 
-    public Asistencia_eventos(int miembro_id, int evento_id, Boolean asistio) {
+    public AsistenciaEventos(int miembro_id, int evento_id, Boolean asistio) {
         this.miembro_id = miembro_id;
         this.evento_id = evento_id;
         this.asistio = asistio;

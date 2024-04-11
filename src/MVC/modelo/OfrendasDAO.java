@@ -1,3 +1,5 @@
 package MVC.modelo;
 
-public class OfrendasDAO {}
+import MVC.modelo.entity.Ofrendas;
+
+public class OfrendasDAO extends BaseDAO<Ofrendas> {}

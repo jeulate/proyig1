@@ -1,3 +1,5 @@
 package MVC.modelo;
 
-public class EventosIglesiaDAO {}
+import MVC.modelo.entity.EventosIglesia;
+
+public class EventosIglesiaDAO extends BaseDAO<EventosIglesia>{}

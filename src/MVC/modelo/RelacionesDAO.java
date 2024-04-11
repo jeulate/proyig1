@@ -1,3 +1,5 @@
 package MVC.modelo;
 
-public class RelacionesDAO {}
+import MVC.modelo.entity.Relaciones;
+
+public class RelacionesDAO extends BaseDAO<Relaciones> {}

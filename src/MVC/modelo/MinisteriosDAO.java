@@ -1,5 +1,5 @@
 package MVC.modelo;
 
-public class MinisteriosDAO {
+import MVC.modelo.entity.Ministerios;
 
-}
+public class MinisteriosDAO extends BaseDAO<Ministerios> {}

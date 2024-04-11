@@ -2,13 +2,13 @@ package MVC.modelo.entity;
 
 import java.util.Date;
 
-public class Eventos_iglesia {
+public class EventosIglesia {
     private String nombre_evento;
     private String descripcion;
     private Date fecha_evento;
     private String tipo_evento;
 
-    public Eventos_iglesia(String nombre_evento, String descripcion, Date fecha_evento, String tipo_evento) {
+    public EventosIglesia(String nombre_evento, String descripcion, Date fecha_evento, String tipo_evento) {
         this.nombre_evento = nombre_evento;
         this.descripcion = descripcion;
         this.fecha_evento = fecha_evento;
