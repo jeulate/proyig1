@@ -6,6 +6,7 @@ import MVC.modelo.entity.AsistenciaEventos;
 import MVC.modelo.entity.EventosIglesia;
 import MVC.modelo.entity.Ministerios;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class ActividadesController {
 
     public void crearActividad(EventosIglesia eventosIglesia) {
         this.eventosIglesiaDAO.crearEventoIglesia(eventosIglesia);
+        JOptionPane.showMessageDialog(null,"Actividada Creada con Éxito");
         System.out.println("Actividad Creada con exito");
     }
 
