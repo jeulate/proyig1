@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class FMiembro {
     private JPanel PPMiembro;
@@ -27,7 +29,7 @@ public class FMiembro {
     private JTable tablaDatos;
     private JButton btnMostrar;
     private DefaultTableModel modeloTabla;
-
+    private List<Miembro> datosCargados = new ArrayList<>();
     public FMiembro(){
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(rdFemale);
@@ -42,6 +44,7 @@ public class FMiembro {
 
         JScrollPane scrollPane =new JScrollPane(tablaDatos);
         PPMiembro.add(scrollPane);
+
 
         btnRegistrarMiembro.addActionListener(new ActionListener() {
             @Override
