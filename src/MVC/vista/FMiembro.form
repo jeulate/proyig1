@@ -182,7 +182,7 @@
                   </component>
                 </children>
               </grid>
-              <grid id="67c53" layout-manager="GridBagLayout">
+              <grid id="67c53" binding="ppdatos" layout-manager="GridBagLayout">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>

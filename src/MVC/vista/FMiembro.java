@@ -33,6 +33,7 @@ public class FMiembro {
     private JTable tablaDatos;
     private JButton btnMostrar;
     private JPanel paneFecNac;
+    private JPanel ppdatos;
 
     private DefaultTableModel modeloTabla;
 
@@ -58,7 +59,7 @@ public class FMiembro {
         tablaDatos = new JTable(modeloTabla);
 
         JScrollPane scrollPane =new JScrollPane(tablaDatos);
-        PPMiembro.add(scrollPane);
+        ppdatos.add(scrollPane);
 
         btnRegistrarMiembro.addActionListener(new ActionListener() {
             @Override
