@@ -62,21 +62,21 @@ public class FMiembro {
                         genero = rdMale.getText();
                     }
 
-                    Miembros miembros = new Miembros(
-                            txtNombre.getText(),
-                            txtApellido.getText(),
-                            Fechanac,
-                            genero,
-                            txtDireccion.getText(),
-                            txtEmail.getText(),
-                            txtTelef.getText()
-                    );
+//                    Miembros miembros = new Miembros(
+//                            txtNombre.getText(),
+//                            txtApellido.getText(),
+//                            Fechanac,
+//                            genero,
+//                            txtDireccion.getText(),
+//                            txtEmail.getText(),
+//                            txtTelef.getText()
+//                    );
                     System.out.println("el campo devuelve "+ genero);
                     CMiembrosDAO cMiembrosDAO = new CMiembrosDAO();
                     RegistroMiembros registroMiembros = new RegistroMiembros(cMiembrosDAO);
 
                     CRegistroMiembros controlador = new CRegistroMiembros(registroMiembros);
-                    controlador.registrarMiembro(miembros);
+//                    controlador.registrarMiembro(miembros);
                 }catch (ParseException ex){
                         ex.printStackTrace();
                 }
