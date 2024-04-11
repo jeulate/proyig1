@@ -3,7 +3,8 @@ package MVC.modelo;
 import java.sql.*;
 
 public class ConexionBD {
-    private static final String URL = "jdbc:mysql://localhost:3306/IglesiaDB";
+//    private static final String URL = "jdbc:mysql://localhost:3306/IglesiaDB";
+    private static final String URL = "jdbc:mysql://localhost:3306/dbiglesia";
     private static final String USUARIO = "root";
     private static final String CONTRASENA = "";
     private static Connection conexion = null;

@@ -2,7 +2,7 @@ package MVC.modelo;
 
 import java.util.Date;
 
-public class Miembro {
+public class Miembros {
     private String nombre;
     private String apellido;
     private Date fnaci;
@@ -10,8 +10,11 @@ public class Miembro {
     private String direccion;
     private String email;
     private String telefono;
+    private Date fecha_bautismo;
+    private Boolean asisitio_culto;
 
-    public Miembro(String nombre, String apellido, Date fnaci, String genero, String direccion, String email, String telefono) {
+
+    public Miembros(String nombre, String apellido, Date fnaci, String genero, String direccion, String email, String telefono, Date fecha_bautismo, Boolean asisitio_culto) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.fnaci = fnaci;
@@ -19,6 +22,8 @@ public class Miembro {
         this.direccion = direccion;
         this.email = email;
         this.telefono = telefono;
+        this.fecha_bautismo = fecha_bautismo;
+        this.asisitio_culto = asisitio_culto;
     }
 
     public String getNombre() {
@@ -75,5 +80,21 @@ public class Miembro {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public Date getFecha_bautismo() {
+        return fecha_bautismo;
+    }
+
+    public void setFecha_bautismo(Date fecha_bautismo) {
+        this.fecha_bautismo = fecha_bautismo;
+    }
+
+    public Boolean getAsisitio_culto() {
+        return asisitio_culto;
+    }
+
+    public void setAsisitio_culto(Boolean asisitio_culto) {
+        this.asisitio_culto = asisitio_culto;
     }
 }

@@ -1,10 +1,10 @@
 package MVC.modelo;
 
-public class Ministerio {
+public class Ministerios {
     private String nombre;
     private String descripcion;
 
-    public Ministerio(String nombre, String descripcion) {
+    public Ministerios(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
     }

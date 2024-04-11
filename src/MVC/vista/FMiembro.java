@@ -2,7 +2,7 @@ package MVC.vista;
 
 import MVC.controlador.CMiembrosDAO;
 import MVC.controlador.CRegistroMiembros;
-import MVC.modelo.Miembro;
+import MVC.modelo.Miembros;
 import MVC.modelo.RegistroMiembros;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ public class FMiembro {
     private JTable tablaDatos;
     private JButton btnMostrar;
     private DefaultTableModel modeloTabla;
-    private List<Miembro> datosCargados = new ArrayList<>();
+    private List<Miembros> datosCargados = new ArrayList<>();
     public FMiembro(){
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(rdFemale);
@@ -62,7 +62,7 @@ public class FMiembro {
                         genero = rdMale.getText();
                     }
 
-                    Miembro miembro = new Miembro(
+                    Miembros miembros = new Miembros(
                             txtNombre.getText(),
                             txtApellido.getText(),
                             Fechanac,
@@ -76,7 +76,7 @@ public class FMiembro {
                     RegistroMiembros registroMiembros = new RegistroMiembros(cMiembrosDAO);
 
                     CRegistroMiembros controlador = new CRegistroMiembros(registroMiembros);
-                    controlador.registrarMiembro(miembro);
+                    controlador.registrarMiembro(miembros);
                 }catch (ParseException ex){
                         ex.printStackTrace();
                 }

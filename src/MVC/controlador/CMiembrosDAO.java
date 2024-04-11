@@ -1,7 +1,7 @@
 package MVC.controlador;
 
 import MVC.modelo.ConexionBD;
-import MVC.modelo.Miembro;
+import MVC.modelo.Miembros;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
@@ -10,17 +10,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CMiembrosDAO {
-    public void agregarMiembro(Miembro miembro){
+    public void agregarMiembro(Miembros miembros){
         try(Connection conexion  = ConexionBD.establecerConexion()) {
             String query = "INSERT INTO miembros (nombre,apellido,fecha_nacimiento,genero,direccion,correo_electronico,telefono) VALUES (?,?,?,?,?,?,?)";
             try(PreparedStatement statement = conexion.prepareStatement(query)){
-                statement.setString(1, miembro.getNombre());
-                statement.setString(2, miembro.getApellido());
-                statement.setDate(3, new java.sql.Date(miembro.getFnaci().getTime()));
-                statement.setString(4,miembro.getGenero());
-                statement.setString(5,miembro.getDireccion());
-                statement.setString(6,miembro.getEmail());
-                statement.setString(7, miembro.getTelefono());
+                statement.setString(1, miembros.getNombre());
+                statement.setString(2, miembros.getApellido());
+                statement.setDate(3, new java.sql.Date(miembros.getFnaci().getTime()));
+                statement.setString(4, miembros.getGenero());
+                statement.setString(5, miembros.getDireccion());
+                statement.setString(6, miembros.getEmail());
+                statement.setString(7, miembros.getTelefono());
 
                 statement.execute();
                 System.out.println("Datos registrados correctamente en la base de datos.");

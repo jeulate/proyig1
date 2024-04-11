@@ -1,6 +1,6 @@
 package MVC.controlador;
 
-import MVC.modelo.Miembro;
+import MVC.modelo.Miembros;
 import MVC.modelo.RegistroMiembros;
 
 import javax.swing.table.DefaultTableModel;
@@ -11,8 +11,8 @@ public class CRegistroMiembros {
     public CRegistroMiembros(RegistroMiembros registroMiembros) {
         this.registroMiembros = registroMiembros;
     }
-    public void registrarMiembro(Miembro miembro){
-        registroMiembros.registrarMiembro(miembro);
+    public void registrarMiembro(Miembros miembros){
+        registroMiembros.registrarMiembro(miembros);
     }
     public void cargarDatosenTabla(DefaultTableModel modeloTabla){
         registroMiembros.cargarDatosenTabla(modeloTabla);

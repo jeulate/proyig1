@@ -11,9 +11,9 @@ public class RegistroMiembros {
     public RegistroMiembros(CMiembrosDAO cMiembrosDAO) {
         this.cMiembrosDAO = cMiembrosDAO;
     }
-    public void registrarMiembro(Miembro miembro){
-        if (esPersonaValida(miembro)) {
-            cMiembrosDAO.agregarMiembro(miembro);
+    public void registrarMiembro(Miembros miembros){
+        if (esPersonaValida(miembros)) {
+            cMiembrosDAO.agregarMiembro(miembros);
             System.out.println("Registro Exitoso");
         } else{
             System.out.println("Los campos no pueden estar vacios");
@@ -24,7 +24,7 @@ public class RegistroMiembros {
     public void cargarDatosenTabla(DefaultTableModel modeloTabla){
         cMiembrosDAO.cargarDatosenTabla(modeloTabla);
     }
-    private boolean esPersonaValida(Miembro miembros) {
+    private boolean esPersonaValida(Miembros miembros) {
         return !miembros.getNombre().isEmpty() &&
                 !miembros.getApellido().isEmpty() &&
                 miembros.getFnaci() != null &&
