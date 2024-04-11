@@ -1,4 +1,4 @@
-package MVC.modelo;
+package MVC.modelo.entity;
 
 public class Asistencia_eventos  {
     private int miembro_id;

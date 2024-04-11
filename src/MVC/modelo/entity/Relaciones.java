@@ -1,4 +1,4 @@
-package MVC.modelo;
+package MVC.modelo.entity;
 
 public class Relaciones {
     private int miembro1_id;

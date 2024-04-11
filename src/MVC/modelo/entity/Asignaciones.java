@@ -1,4 +1,4 @@
-package MVC.modelo;
+package MVC.modelo.entity;
 
 import java.util.Date;
 

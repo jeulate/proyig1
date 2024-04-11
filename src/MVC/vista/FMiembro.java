@@ -1,9 +1,7 @@
 package MVC.vista;
 
-import MVC.controlador.CMiembrosDAO;
-import MVC.controlador.CRegistroMiembros;
-import MVC.modelo.Miembros;
-import MVC.modelo.RegistroMiembros;
+import MVC.controlador.MiembrosController;
+import MVC.modelo.entity.Miembros;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +14,9 @@ import java.util.Date;
 import java.util.List;
 
 public class FMiembro {
+    private MiembrosController miembrosController;
+
+
     private JPanel PPMiembro;
     private JTextField txtNombre;
     private JTextField txtApellido;
@@ -31,6 +32,8 @@ public class FMiembro {
     private DefaultTableModel modeloTabla;
     private List<Miembros> datosCargados = new ArrayList<>();
     public FMiembro(){
+        miembrosController = new MiembrosController();
+
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(rdFemale);
         buttonGroup.add(rdMale);
@@ -62,20 +65,32 @@ public class FMiembro {
                         genero = rdMale.getText();
                     }
 
-//                    Miembros miembros = new Miembros(
-//                            txtNombre.getText(),
-//                            txtApellido.getText(),
-//                            Fechanac,
-//                            genero,
-//                            txtDireccion.getText(),
-//                            txtEmail.getText(),
-//                            txtTelef.getText()
-//                    );
                     System.out.println("el campo devuelve "+ genero);
-                    CMiembrosDAO cMiembrosDAO = new CMiembrosDAO();
-                    RegistroMiembros registroMiembros = new RegistroMiembros(cMiembrosDAO);
 
-                    CRegistroMiembros controlador = new CRegistroMiembros(registroMiembros);
+                    String nombre = txtNombre.getText();
+                    String apellido = txtApellido.getText();
+                    Date fecha_nacimiento = Fechanac ;
+//                    String genero = "";
+                    String direccion = txtDireccion.getText();
+                    String email=txtEmail.getText();
+                    String telefono=txtTelef.getText();
+                    Date fecha_bautismo=fecha_nacimiento;
+                    Boolean asistio_culto=false;
+;
+                    Miembros miembro = new Miembros(
+                            nombre,
+                            apellido,
+                            fecha_nacimiento,
+                            genero,
+                            direccion,
+                            email,
+                            telefono,
+                            fecha_bautismo,
+                            asistio_culto
+                    );
+
+                    miembrosController.registrarNuevoMiembro(miembro);
+
 //                    controlador.registrarMiembro(miembros);
                 }catch (ParseException ex){
                         ex.printStackTrace();
@@ -86,9 +101,24 @@ public class FMiembro {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    CMiembrosDAO cMiembrosDAO = new CMiembrosDAO();
-                    RegistroMiembros servicio = new RegistroMiembros(cMiembrosDAO);
-                    servicio.cargarDatosenTabla(modeloTabla);
+                    List<Miembros> miembros =  miembrosController.obtenerMiembros();
+
+                    limpiarTabla(modeloTabla);
+//                    modeloTabla = new DefaultTableModel(columnas,0);
+
+                    for (Miembros miembro : miembros) {
+                        modeloTabla.addRow(new Object[]{
+                                miembro.getId(),
+                                miembro.getNombre(),
+                                miembro.getApellido(),
+                                miembro.getFecha_nacimiento(),
+                                miembro.getGenero(),
+                                miembro.getDireccion(),
+                                miembro.getCorreo_electronico(),
+                                miembro.getTelefono()
+                        });
+                    }
+
                     modeloTabla.fireTableDataChanged();
 
                 }catch (Exception ex){
@@ -96,6 +126,13 @@ public class FMiembro {
                 }
             }
         });
+    }
+
+    private void limpiarTabla(DefaultTableModel modelo) {
+        // Se elimina el contenido de la tabla fila por fila desde arriba
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
     }
 
     public static void main(String[] args) {

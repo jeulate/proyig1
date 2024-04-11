@@ -1,6 +1,6 @@
-package MVC.controlador;
+package utils;
 
-import MVC.modelo.ConexionBD;
+import MVC.modelo.conector.ConexionBD;
 
 import java.sql.Connection;
 
