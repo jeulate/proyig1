@@ -5,6 +5,8 @@ import MVC.controlador.RelacionesMiembrosController;
 import MVC.modelo.entity.Miembros;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class FRelacionMiembros {
@@ -22,14 +24,24 @@ public class FRelacionMiembros {
 
     List<Miembros> miembros1;
     List<Miembros> miembros2;
-
+    DefaultComboBoxModel<Miembros> modeloComboMiembro1;
+    DefaultComboBoxModel<Miembros> modeloComboMiembro2;
 
     public FRelacionMiembros() {
         miembrosController = new MiembrosController();
+        relacionesMiembrosController = new RelacionesMiembrosController();
 
         cargarMiembro1();
         cargarMiembro2();
 
+        btnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int indexMiembro1 = comboMiembro1.getSelectedIndex();
+                modeloComboMiembro1.getElementAt(indexMiembro1).getId();
+
+            }
+        });
     }
 
 
@@ -38,23 +50,23 @@ public class FRelacionMiembros {
         miembros1 =  miembrosController.obtenerMiembros();
 
         // Crear el modelo y agregar los datos al modelo
-        DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
+        modeloComboMiembro1 = new DefaultComboBoxModel<>();
         for (Miembros miembro : miembros1) {
-            modelo.addElement(miembro.getNombre() + " " + miembro.getApellido());
+            modeloComboMiembro1.addElement(miembro);
         }
 
-        comboMiembro1.setModel(modelo);
+        comboMiembro1.setModel(modeloComboMiembro1);
     }
 
     private void cargarMiembro2() {
         miembros2 =  miembrosController.obtenerMiembros();
 
-        DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
+        modeloComboMiembro2 = new DefaultComboBoxModel<>();
         for (Miembros miembro : miembros2) {
-            modelo.addElement(miembro.getNombre() + " " + miembro.getApellido());
+            modeloComboMiembro2.addElement(miembro);
         }
 
-        comboMiembro2.setModel(modelo);
+        comboMiembro2.setModel(modeloComboMiembro2);
     }
 
     public static void main(String[] args) {

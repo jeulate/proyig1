@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="iglesiadb@localhost" uuid="9105c4e1-e719-4ee4-93b1-cfd320595e46">
+    <data-source source="LOCAL" name="dbiglesia@localhost" uuid="9105c4e1-e719-4ee4-93b1-cfd320595e46">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/iglesiadb</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/dbiglesia</jdbc-url>
       <jdbc-additional-properties>
         <property name="APPROVED_DRIVER" value="mysql.8" />
       </jdbc-additional-properties>

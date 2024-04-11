@@ -118,4 +118,9 @@ public class Miembros {
     public void setAsistio_culto(Boolean asistio_culto) {
         this.asistio_culto = asistio_culto;
     }
+
+    @Override
+    public String toString() {
+        return nombre + " " + apellido;
+    }
 }
