@@ -37,7 +37,6 @@ public class FMiembro {
 
     private DefaultTableModel modeloTabla;
 
-    private JDateChooser fechaVueltaChosser;
     private List<Miembros> datosCargados = new ArrayList<>();
 
     public FMiembro(){
