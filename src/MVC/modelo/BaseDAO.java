@@ -55,11 +55,13 @@ public class BaseDAO<T> {
   }
 
   // Ejemplo de método para obtener datos, este deberá ser ajustado según necesidades específicas
-  public ResultSet obtener(String tabla, String condicion) throws SQLException {
+  public T obtener(String tabla, String condicion, RowMapper<T> rowMapper) throws SQLException {
     String sql = "SELECT * FROM " + tabla + " WHERE " + condicion;
     Connection conexion = obtenerConexion();
     PreparedStatement statement = conexion.prepareStatement(sql);
-    return statement.executeQuery();
+    ResultSet resultSet = statement.executeQuery();
+
+    return rowMapper.mapRow(resultSet);
   }
 
   public List<T> obtenerTodos(String tabla, RowMapper<T> rowMapper) {
