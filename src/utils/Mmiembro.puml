@@ -1,0 +1,57 @@
+@startuml
+package "P Registro Miembros" #FFF2CC {
+  class "FMiembro" as fmiembro {
+  MiembrosController miembrosController
+  --
+  limpiarTabla(DefaultTableModel modelo)
+  }
+  class "MiembrosController" as ctrmiembro{
+  MiembrosDAO miembrosDAO
+  --
+  registrarNuevoMiembro(Miembros miembro)
+  actualizarMiembro(Miembros miembro)
+  obtenerMiembros() : List<Miembros>
+  esPersonaValida(Miembros miembros): boolean
+  }
+
+  class "MiembrosDAO" as daomiembro{
+  --
+  agregarMiembro(Miembros miembros)
+  obtenerMiembros(): List<Miembros>
+  obtenerMiembro(int id): Miembros
+  actualizarMiembro(Miembros miembros)
+  }
+
+  class "BaseDAO" as daobase {
+  --
+  obtenerConexion(): Connection
+  insertar(String tabla, Map<String, Object> campos): boolean
+  actualizar(String tabla, Map<String, Object> campos, String condicion): boolean
+  obtener(String tabla, String condicion, RowMapper<T> rowMapper): T
+  obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
+  RowMapper<T>
+  }
+
+  class "Miembros" as miembros{
+      Integer id
+      String nombre
+      String apellido
+      Date fecha_nacimiento
+      String genero
+      String direccion
+      String correo_electronico
+      String telefono
+      Date fecha_bautismo
+      Boolean asistio_culto
+      --
+  }
+
+  fmiembro --> ctrmiembro
+  ctrmiembro --> daomiembro
+  daobase <|-- daomiembro
+  ctrmiembro ..> miembros
+  daomiembro ..> miembros
+}
+
+
+@enduml
