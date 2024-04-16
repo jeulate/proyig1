@@ -42,7 +42,7 @@ public class FMiembro {
 
     private List<Miembros> datosCargados = new ArrayList<>();
 
-    public FMiembro(){
+    public FMiembro() {
         miembrosController = new MiembrosController();
 
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -52,20 +52,21 @@ public class FMiembro {
         rdFemale.setText("F");
         rdMale.setText("M");
 
-        txtFecNac =  new JDateChooser();
+        txtFecNac = new JDateChooser();
         paneFecNac.add(txtFecNac);
 
 
-        String[] columnas = {"ID", "Nombre", "Apellido","Fecha Nac.", "Sexo", "Direccion","Email","Telefono"};
-        modeloTabla = new DefaultTableModel(columnas,0);
+        String[] columnas = {"ID", "Nombre", "Apellido", "Fecha Nac.", "Sexo", "Direccion", "Email", "Telefono"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
         tablaDatos = new JTable(modeloTabla);
 
-        JScrollPane scrollPane =new JScrollPane(tablaDatos);
+        JScrollPane scrollPane = new JScrollPane(tablaDatos);
         ppdatos.add(scrollPane);
 
         btnRegistrarMiembro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
                     SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
                     formato.setLenient(false);
                     Date Fechanac = txtFecNac.getDate();
@@ -74,20 +75,20 @@ public class FMiembro {
                     String genero = "";
                     if (rdFemale.isSelected()) {
                         genero = rdFemale.getText();
-                    }else if (rdMale.isSelected()){
+                    } else if (rdMale.isSelected()) {
                         genero = rdMale.getText();
                     }
 
 
                     String nombre = txtNombre.getText();
                     String apellido = txtApellido.getText();
-                    Date fecha_nacimiento = Fechanac ;
+                    Date fecha_nacimiento = Fechanac;
                     String direccion = txtDireccion.getText();
-                    String email=txtEmail.getText();
-                    String telefono=txtTelef.getText();
-                    Date fecha_bautismo=fecha_nacimiento;
-                    Boolean asistio_culto=false;
-;
+                    String email = txtEmail.getText();
+                    String telefono = txtTelef.getText();
+                    Date fecha_bautismo = fecha_nacimiento;
+                    Boolean asistio_culto = false;
+                    ;
                     Miembros miembro = new Miembros(
                             nombre,
                             apellido,
@@ -101,6 +102,11 @@ public class FMiembro {
                     );
 
                     miembrosController.registrarNuevoMiembro(miembro);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al registrar miembro: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
 
             }
         });
@@ -108,7 +114,7 @@ public class FMiembro {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<Miembros> miembros =  miembrosController.obtenerMiembros();
+                    List<Miembros> miembros = miembrosController.obtenerMiembros();
 
                     limpiarTabla(modeloTabla);
 
@@ -127,8 +133,9 @@ public class FMiembro {
 
                     modeloTabla.fireTableDataChanged();
 
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al obtener miembros: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -166,39 +173,46 @@ public class FMiembro {
         btnActualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-                formato.setLenient(false);
-                Date Fechanac = txtFecNac.getDate();
+                try {
 
-                int filaSeleccionada = tablaDatos.getSelectedRow();
-                int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-                String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
-                String apellido = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
-                Date fechaNacimiento = (Date) modeloTabla.getValueAt(filaSeleccionada, 3);
-                String genero = (String) modeloTabla.getValueAt(filaSeleccionada, 4);
-                String direccion = (String) modeloTabla.getValueAt(filaSeleccionada, 5);
-                String email = (String) modeloTabla.getValueAt(filaSeleccionada, 6);
-                String telefono = (String) modeloTabla.getValueAt(filaSeleccionada, 7);
-                Date fecha_bautismo=fechaNacimiento;
-                boolean asistio_culto = false;
+                    SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+                    formato.setLenient(false);
+                    Date Fechanac = txtFecNac.getDate();
 
-                fechaNacimiento = Fechanac;
+                    int filaSeleccionada = tablaDatos.getSelectedRow();
+                    int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+                    String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
+                    String apellido = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
+                    Date fechaNacimiento = (Date) modeloTabla.getValueAt(filaSeleccionada, 3);
+                    String genero = (String) modeloTabla.getValueAt(filaSeleccionada, 4);
+                    String direccion = (String) modeloTabla.getValueAt(filaSeleccionada, 5);
+                    String email = (String) modeloTabla.getValueAt(filaSeleccionada, 6);
+                    String telefono = (String) modeloTabla.getValueAt(filaSeleccionada, 7);
+                    Date fecha_bautismo = fechaNacimiento;
+                    boolean asistio_culto = false;
 
-                ;
-                Miembros miembro = new Miembros(
-                        id,
-                        nombre,
-                        apellido,
-                        fechaNacimiento,
-                        genero,
-                        direccion,
-                        email,
-                        telefono,
-                        fecha_bautismo,
-                        asistio_culto
-                );
+                    fechaNacimiento = Fechanac;
 
-                miembrosController.actualizarMiembro(miembro);
+                    ;
+                    Miembros miembro = new Miembros(
+                            id,
+                            nombre,
+                            apellido,
+                            fechaNacimiento,
+                            genero,
+                            direccion,
+                            email,
+                            telefono,
+                            fecha_bautismo,
+                            asistio_culto
+                    );
+
+                    miembrosController.actualizarMiembro(miembro);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al actualizar miembro: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
 
 
             }
@@ -214,11 +228,11 @@ public class FMiembro {
 
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(()->{
+        SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Registro de Miembros");
             frame.setContentPane(new FMiembro().PPMiembro);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(700,600);
+            frame.setSize(700, 600);
             frame.setVisible(true);
         });
     }
