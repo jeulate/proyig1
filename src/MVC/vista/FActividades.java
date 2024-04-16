@@ -36,68 +36,81 @@ public class FActividades {
         txtFecEvent = new JDateChooser();
         panelFecEvent.add(txtFecEvent);
 
-        String[] columnas = {"Nombre Evento", "Descripcion","Fecha Evento","Tipo Evento"};
-        modeloTabla = new DefaultTableModel(columnas,0);
+        String[] columnas = {"Nombre Evento", "Descripcion", "Fecha Evento", "Tipo Evento"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
         tablaDatos = new JTable(modeloTabla);
 
-        JScrollPane scrollPane =new JScrollPane(tablaDatos);
+        JScrollPane scrollPane = new JScrollPane(tablaDatos);
         ppdatos.add(scrollPane);
 
 
         btnRegistrarEvento.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+                    formato.setLenient(false);
+                    Date fechaEvento = txtFecEvent.getDate();
 
-                SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-                formato.setLenient(false);
-                Date fechaEvento = txtFecEvent.getDate();
+                    String nombreevento = txtNombreEvento.getText();
+                    String descripcion = txtDescripcion.getText();
+                    Date fechaEv = fechaEvento;
+                    String tipoEvento = (String) comboTipoEvento.getSelectedItem();
 
-                String nombreevento = txtNombreEvento.getText();
-                String descripcion = txtDescripcion.getText();
-                Date fechaEv = fechaEvento;
-                String tipoEvento = (String) comboTipoEvento.getSelectedItem();
+                    EventosIglesia eventosIglesia = new EventosIglesia(
+                            nombreevento,
+                            descripcion,
+                            fechaEv,
+                            tipoEvento
+                    );
+                    actividadesController.crearActividad(eventosIglesia);
 
-                EventosIglesia eventosIglesia = new EventosIglesia(
-                  nombreevento,
-                  descripcion,
-                  fechaEv,
-                  tipoEvento
-                );
-                actividadesController.crearActividad(eventosIglesia);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al registrar evento: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
 
             }
         });
         btnMostrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<EventosIglesia> eventosIglesias = actividadesController.obtenerActividad();
-                limpiarTabla(modeloTabla);
-                for (EventosIglesia eventosIglesia : eventosIglesias) {
+                try {
+                    List<EventosIglesia> eventosIglesias = actividadesController.obtenerActividad();
+                    limpiarTabla(modeloTabla);
+                    for (EventosIglesia eventosIglesia : eventosIglesias) {
 
-                    modeloTabla.addRow(new Object[]{
-                            eventosIglesia.getNombre_evento(),
-                            eventosIglesia.getDescripcion(),
-                            eventosIglesia.getFecha_evento(),
-                            eventosIglesia.getTipo_evento()
-                    });
+                        modeloTabla.addRow(new Object[]{
+                                eventosIglesia.getNombre_evento(),
+                                eventosIglesia.getDescripcion(),
+                                eventosIglesia.getFecha_evento(),
+                                eventosIglesia.getTipo_evento()
+                        });
+                    }
+
+                    modeloTabla.fireTableDataChanged();
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al mostrar eventos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
-                modeloTabla.fireTableDataChanged();
             }
         });
     }
+
     private void limpiarTabla(DefaultTableModel modelo) {
         // Se elimina el contenido de la tabla fila por fila desde arriba
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
     }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(()->{
+        SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Registro de Eventos y Actividades");
             frame.setContentPane(new FActividades().PPActividades);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(700,600);
+            frame.setSize(700, 600);
             frame.setVisible(true);
         });
     }
