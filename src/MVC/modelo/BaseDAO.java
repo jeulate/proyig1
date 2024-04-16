@@ -2,6 +2,7 @@ package MVC.modelo;
 
 import MVC.modelo.conector.ConexionBD;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,7 +31,7 @@ public class BaseDAO<T> {
       }
       return statement.executeUpdate() > 0;
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.err.println("Error al insertar en la tabla" + tabla + ": "+e.getMessage());
       return false;
     }
   }
@@ -49,7 +50,7 @@ public class BaseDAO<T> {
       }
       return statement.executeUpdate() > 0;
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.err.println("Error al actualizar la tabla "+ tabla + ": " + e.getMessage());
       return false;
     }
   }
@@ -57,11 +58,14 @@ public class BaseDAO<T> {
   // Ejemplo de método para obtener datos, este deberá ser ajustado según necesidades específicas
   public T obtener(String tabla, String condicion, RowMapper<T> rowMapper) throws SQLException {
     String sql = "SELECT * FROM " + tabla + " WHERE " + condicion;
-    Connection conexion = obtenerConexion();
-    PreparedStatement statement = conexion.prepareStatement(sql);
-    ResultSet resultSet = statement.executeQuery();
-
-    return rowMapper.mapRow(resultSet);
+    try (Connection conexion = obtenerConexion();
+         PreparedStatement statement = conexion.prepareStatement(sql);
+         ResultSet resultSet = statement.executeQuery()) {
+      return rowMapper.mapRow(resultSet);
+    } catch (SQLException e) {
+      System.err.println("Error al obtener datos de la tabla " + tabla + ": " + e.getMessage());
+      return null;
+    }
   }
 
   public List<T> obtenerTodos(String tabla, RowMapper<T> rowMapper) {
@@ -75,7 +79,7 @@ public class BaseDAO<T> {
         resultados.add(rowMapper.mapRow(resultSet));
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.err.println("Error al obtener todos los datos de la tabla " + tabla + ": " + e.getMessage());
     }
     return resultados;
   }

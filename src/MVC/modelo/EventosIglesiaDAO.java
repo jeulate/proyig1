@@ -9,16 +9,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventosIglesiaDAO extends BaseDAO<EventosIglesia>{
-    public void crearEventoIglesia(EventosIglesia eventosIglesia){
+public class EventosIglesiaDAO extends BaseDAO<EventosIglesia> {
+    public void crearEventoIglesia(EventosIglesia eventosIglesia) {
         Map<String, Object> campos = new HashMap<>();
         campos.put("nombre_evento", eventosIglesia.getNombre_evento());
         campos.put("descripcion", eventosIglesia.getDescripcion());
         campos.put("fecha_evento", eventosIglesia.getFecha_evento());
         campos.put("tipo_evento", eventosIglesia.getTipo_evento());
 
+        try {
+            this.insertar(Tablas.EVENTOS_IGLESIA.getTableName(), campos);
 
-        this.insertar(Tablas.EVENTOS_IGLESIA.getTableName(), campos);
+        } catch (Exception e) {
+            System.err.println("Error al crear Evento: " + e.getMessage());
+        }
     }
 
     public List<EventosIglesia> obtenerEventosIglesia() throws SQLException {

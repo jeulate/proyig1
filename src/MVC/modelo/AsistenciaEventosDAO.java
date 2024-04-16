@@ -6,14 +6,16 @@ import utils.Tablas;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AsistenciaEventosDAO extends BaseDAO<AsistenciaEventos>{
-    public void registrarAsistencia(AsistenciaEventos asistenciaEventos){
+public class AsistenciaEventosDAO extends BaseDAO<AsistenciaEventos> {
+    public void registrarAsistencia(AsistenciaEventos asistenciaEventos) {
         Map<String, Object> campos = new HashMap<>();
         campos.put("miembro_id", asistenciaEventos.getMiembro_id());
         campos.put("evento_id", asistenciaEventos.getEvento_id());
         campos.put("asistio", asistenciaEventos.getAsistio());
-
-
-        this.insertar(Tablas.ASISTENCIA_EVENTOS.getTableName(), campos);
+        try {
+            this.insertar(Tablas.ASISTENCIA_EVENTOS.getTableName(), campos);
+        } catch (Exception e) {
+            System.err.println("Error al Registrar la asistencia: " + e.getMessage());
+        }
     }
 }

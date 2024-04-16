@@ -15,8 +15,11 @@ public class MinisteriosDAO extends BaseDAO<Ministerios> {
         campos.put("nombre", ministerios.getNombre());
         campos.put("descripcion", ministerios.getDescripcion());
 
-
-        this.insertar(Tablas.MINISTERIOS.getTableName(), campos);
+        try {
+            this.insertar(Tablas.MINISTERIOS.getTableName(), campos);
+        } catch (Exception e) {
+            System.err.println("Error al agregar ministerios: " + e.getMessage());
+        }
     }
 
     public List<Ministerios> obtenerMinisterios() throws SQLException {
