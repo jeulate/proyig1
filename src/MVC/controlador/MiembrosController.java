@@ -26,6 +26,11 @@ public class MiembrosController {
     }
   }
 
+  public void actualizarMiembro(Miembros miembro){
+    this.miembrosDAO.actualizarMiembro(miembro);
+    JOptionPane.showMessageDialog(null,"Datos del Miembro Actualizado");
+  }
+
   public List<Miembros> obtenerMiembros() {
     try {
       return this.miembrosDAO.obtenerMiembros();

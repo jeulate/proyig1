@@ -5,10 +5,11 @@ import MVC.modelo.entity.Miembros;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +35,8 @@ public class FMiembro {
     private JButton btnMostrar;
     private JPanel paneFecNac;
     private JPanel ppdatos;
+    private JButton btnActualizar;
+    private JButton btnEliminar;
 
     private DefaultTableModel modeloTabla;
 
@@ -63,7 +66,6 @@ public class FMiembro {
         btnRegistrarMiembro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                try {
                     SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
                     formato.setLenient(false);
                     Date Fechanac = txtFecNac.getDate();
@@ -76,12 +78,10 @@ public class FMiembro {
                         genero = rdMale.getText();
                     }
 
-                    System.out.println("el campo devuelve "+ genero);
 
                     String nombre = txtNombre.getText();
                     String apellido = txtApellido.getText();
                     Date fecha_nacimiento = Fechanac ;
-//                    String genero = "";
                     String direccion = txtDireccion.getText();
                     String email=txtEmail.getText();
                     String telefono=txtTelef.getText();
@@ -102,10 +102,6 @@ public class FMiembro {
 
                     miembrosController.registrarNuevoMiembro(miembro);
 
-//                    controlador.registrarMiembro(miembros);
-//                }catch (ParseException ex){
-//                        ex.printStackTrace();
-//                }
             }
         });
         btnMostrar.addActionListener(new ActionListener() {
@@ -115,7 +111,6 @@ public class FMiembro {
                     List<Miembros> miembros =  miembrosController.obtenerMiembros();
 
                     limpiarTabla(modeloTabla);
-//                    modeloTabla = new DefaultTableModel(columnas,0);
 
                     for (Miembros miembro : miembros) {
                         modeloTabla.addRow(new Object[]{
@@ -137,6 +132,77 @@ public class FMiembro {
                 }
             }
         });
+        tablaDatos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                // Verifica si la selección ha cambiado y si hay alguna fila seleccionada
+                if (!e.getValueIsAdjusting() && tablaDatos.getSelectedRow() != -1) {
+                    // Obtiene los datos del miembro seleccionado
+                    int filaSeleccionada = tablaDatos.getSelectedRow();
+                    int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+                    String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
+                    String apellido = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
+                    Date fechaNacimiento = (Date) modeloTabla.getValueAt(filaSeleccionada, 3);
+                    String genero = (String) modeloTabla.getValueAt(filaSeleccionada, 4);
+                    String direccion = (String) modeloTabla.getValueAt(filaSeleccionada, 5);
+                    String email = (String) modeloTabla.getValueAt(filaSeleccionada, 6);
+                    String telefono = (String) modeloTabla.getValueAt(filaSeleccionada, 7);
+
+                    // Muestra los datos del miembro seleccionado en los campos correspondientes
+                    txtNombre.setText(nombre);
+                    txtApellido.setText(apellido);
+                    txtFecNac.setDate(fechaNacimiento);
+                    if (genero.equals("F")) {
+                        rdFemale.setSelected(true);
+                    } else {
+                        rdMale.setSelected(true);
+                    }
+                    txtDireccion.setText(direccion);
+                    txtEmail.setText(email);
+                    txtTelef.setText(telefono);
+                }
+            }
+        });
+        btnActualizar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+                formato.setLenient(false);
+                Date Fechanac = txtFecNac.getDate();
+
+                int filaSeleccionada = tablaDatos.getSelectedRow();
+                int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+                String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
+                String apellido = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
+                Date fechaNacimiento = (Date) modeloTabla.getValueAt(filaSeleccionada, 3);
+                String genero = (String) modeloTabla.getValueAt(filaSeleccionada, 4);
+                String direccion = (String) modeloTabla.getValueAt(filaSeleccionada, 5);
+                String email = (String) modeloTabla.getValueAt(filaSeleccionada, 6);
+                String telefono = (String) modeloTabla.getValueAt(filaSeleccionada, 7);
+                Date fecha_bautismo=fechaNacimiento;
+                boolean asistio_culto = false;
+
+                fechaNacimiento = Fechanac;
+
+                ;
+                Miembros miembro = new Miembros(
+                        id,
+                        nombre,
+                        apellido,
+                        fechaNacimiento,
+                        genero,
+                        direccion,
+                        email,
+                        telefono,
+                        fecha_bautismo,
+                        asistio_culto
+                );
+
+                miembrosController.actualizarMiembro(miembro);
+
+
+            }
+        });
     }
 
     private void limpiarTabla(DefaultTableModel modelo) {
@@ -145,6 +211,7 @@ public class FMiembro {
             modelo.removeRow(0);
         }
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(()->{
