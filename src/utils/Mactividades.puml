@@ -1,0 +1,64 @@
+@startuml
+package "P Registrar Actividades" #FFF2CC {
+  class "FActividades" as factividades {
+  -ActividadesController actividadesController
+  -DefaultTableModel modeloTabla
+  --
+  -limpiarTabla(DefaultTableModel modelo)
+  }
+  class "ActividadesController" as ctractividades{
+      -AsistenciaEventosDAO asistenciaEventosDAO
+      -EventosIglesiaDAO eventosIglesiaDAO
+  --
+  +crearActividad(EventosIglesia eventosIglesia)
+  +obtenerActividad(): List<EventosIglesia>
+  }
+
+  class "AsistenciaEventosDAO" as daoasistenciaev{
+  --
+  +registrarAsistencia(AsistenciaEventos asistenciaEventos)
+  }
+
+  class "EventosIglesiaDAO" as daoeventoigle{
+    --
+    +crearEventoIglesia(EventosIglesia eventosIglesia)
+    +obtenerEventosIglesia() :List<EventosIglesia>
+  }
+
+  class "BaseDAO" as daobase {
+  --
+  +obtenerConexion(): Connection
+  +insertar(String tabla, Map<String, Object> campos): boolean
+  +actualizar(String tabla, Map<String, Object> campos, String condicion): boolean
+  +obtener(String tabla, String condicion, RowMapper<T> rowMapper): T
+  +obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
+  +RowMapper<T>
+  }
+
+  entity "EventosIglesia" as eviglesia{
+        - String nombre_evento
+        - String descripcion
+        - Date fecha_evento
+        - String tipo_evento
+      --
+  }
+   entity "AsistenciaEventos" as asisevento{
+        - int miembro_id
+        - int evento_id
+        - Boolean asistio
+        --
+    }
+
+  factividades --> ctractividades
+  ctractividades --> daoasistenciaev
+  ctractividades --> daoeventoigle
+  daobase <|-- daoasistenciaev
+  daobase <|-- daoeventoigle
+  ctractividades ..> eviglesia
+  ctractividades ..> asisevento
+  daoasistenciaev ..> asisevento
+  daoeventoigle ..> eviglesia
+}
+
+
+@enduml

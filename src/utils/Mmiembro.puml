@@ -1,9 +1,9 @@
 @startuml
 package "P Registro Miembros" #FFF2CC {
   class "FMiembro" as fmiembro {
-  MiembrosController miembrosController
+  - MiembrosController miembrosController
   --
-  limpiarTabla(DefaultTableModel modelo)
+  -limpiarTabla(DefaultTableModel modelo)
   }
   class "MiembrosController" as ctrmiembro{
   MiembrosDAO miembrosDAO
@@ -32,7 +32,7 @@ package "P Registro Miembros" #FFF2CC {
   RowMapper<T>
   }
 
-  class "Miembros" as miembros{
+  entity "Miembros" as miembros{
       Integer id
       String nombre
       String apellido

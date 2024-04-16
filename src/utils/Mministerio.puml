@@ -1,0 +1,46 @@
+@startuml
+package "P Registrar Ministerios" #FFF2CC {
+  class "FMinisterio" as fministerio {
+  -MinisteriosController ministeriosController
+  -DefaultTableModel modeloTabla
+  --
+  -limpiarTabla(DefaultTableModel modelo)
+  }
+  class "MinisteriosController" as ctrministerio{
+  -MinisteriosDAO ministeriosDAO
+  --
+  +crearMinisterio(Ministerios ministerio)
+  +obtenerMinisterios(): List<Ministerios>
+  }
+
+  class "MinisteriosDAO" as daoministerios{
+  --
+  +agregarMinisterio(Ministerios ministerios)
+  +obtenerMinisterios(): List<Ministerios>
+  }
+
+  class "BaseDAO" as daobase {
+  --
+  +obtenerConexion(): Connection
+  +insertar(String tabla, Map<String, Object> campos): boolean
+  +actualizar(String tabla, Map<String, Object> campos, String condicion): boolean
+  +obtener(String tabla, String condicion, RowMapper<T> rowMapper): T
+  +obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
+  +RowMapper<T>
+  }
+
+  entity "Ministerios" as ministerios{
+      -String nombre
+      -String descripcion
+      --
+  }
+
+  fministerio --> ctrministerio
+  ctrministerio --> daoministerios
+  daobase <|-- daoministerios
+  ctrministerio ..> ministerios
+  daoministerios ..> ministerios
+}
+
+
+@enduml
