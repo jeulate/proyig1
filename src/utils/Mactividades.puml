@@ -34,7 +34,11 @@ package "P Registrar Actividades" #FFF2CC {
   +obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
   +RowMapper<T>
   }
-
+  class "ConexionBD" as bdconexion{
+   -String CONFIG_FILE
+   --
+   +Connection establecerConexion()
+  }
   entity "EventosIglesia" as eviglesia{
         - String nombre_evento
         - String descripcion
@@ -54,10 +58,12 @@ package "P Registrar Actividades" #FFF2CC {
   ctractividades --> daoeventoigle
   daobase <|-- daoasistenciaev
   daobase <|-- daoeventoigle
+  daobase -->bdconexion
   ctractividades ..> eviglesia
   ctractividades ..> asisevento
   daoasistenciaev ..> asisevento
   daoeventoigle ..> eviglesia
+
 }
 
 

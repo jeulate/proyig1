@@ -31,7 +31,11 @@ package "P Registro Miembros" #FFF2CC {
   obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
   RowMapper<T>
   }
-
+   class "ConexionBD" as bdconexion{
+     -String CONFIG_FILE
+     --
+     +Connection establecerConexion()
+    }
   entity "Miembros" as miembros{
       Integer id
       String nombre
@@ -51,6 +55,7 @@ package "P Registro Miembros" #FFF2CC {
   daobase <|-- daomiembro
   ctrmiembro ..> miembros
   daomiembro ..> miembros
+  daobase --> bdconexion
 }
 
 

@@ -51,6 +51,11 @@ package "P Relacion Miembros" #FFF2CC {
   +agregarRelacion(Relaciones relacion)
   +obtenerRelaciones():List<Relaciones>
   }
+   class "ConexionBD" as bdconexion{
+     -String CONFIG_FILE
+     --
+     +Connection establecerConexion()
+    }
   entity "Relaciones" as erelacion{
       - int miembro1_id
       - int miembro2_id
@@ -81,6 +86,7 @@ package "P Relacion Miembros" #FFF2CC {
   daomiembro ..> miembros
   daorelaciones ..> erelacion
   ctrrelacion ..> erelacion
+  daobase --> bdconexion
 }
 
 

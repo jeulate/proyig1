@@ -28,7 +28,11 @@ package "P Registrar Ministerios" #FFF2CC {
   +obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
   +RowMapper<T>
   }
-
+ class "ConexionBD" as bdconexion{
+   -String CONFIG_FILE
+   --
+   +Connection establecerConexion()
+  }
   entity "Ministerios" as ministerios{
       -String nombre
       -String descripcion
@@ -40,6 +44,7 @@ package "P Registrar Ministerios" #FFF2CC {
   daobase <|-- daoministerios
   ctrministerio ..> ministerios
   daoministerios ..> ministerios
+  daobase --> bdconexion
 }
 
 
