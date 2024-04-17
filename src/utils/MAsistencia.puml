@@ -1,0 +1,122 @@
+@startuml
+package "P Gestionar Asistencia y Part." #FFF2CC {
+  class "FAsistencia" as fasistencia {
+  - MiembrosController miembrosController
+  - ActividadesController actividadesController
+  - ParticipacionEventosController asistenciaController
+  --
+  -limpiarTabla(DefaultTableModel modelo)
+  -cargarMiembros()
+  -cargarActividades()
+  -getNombreMiembro(List<Miembros> miembros, int idMiembro): String
+  -getActividad(List<EventosIglesia> actividades, int idActividad) : EventosIglesia
+  }
+  class "MiembrosController" as ctrmiembro{
+  MiembrosDAO miembrosDAO
+  --
+  registrarNuevoMiembro(Miembros miembro)
+  actualizarMiembro(Miembros miembro)
+  obtenerMiembros() : List<Miembros>
+  esPersonaValida(Miembros miembros): boolean
+  }
+  class "ActividadesController" as ctractividades{
+    -AsistenciaEventosDAO asistenciaEventosDAO
+    -EventosIglesiaDAO eventosIglesiaDAO
+  --
+  +crearActividad(EventosIglesia eventosIglesia)
+  +obtenerActividad():List<EventosIglesia>
+  }
+  class "ParticipacionEventosController" as ctrasistencia{
+      - AsistenciaEventosDAO asistenciaEventosDAO
+      - MiembrosDAO miembrosDAO
+      - EventosIglesiaDAO eventosIglesiaDAO
+  --
+  +registrarAsistencia(AsistenciaEventos asistenciaEventos)
+  +obtenerAsistencias(): List<AsistenciaEventos>
+  }
+
+  class "MiembrosDAO" as daomiembro{
+  --
+  agregarMiembro(Miembros miembros)
+  obtenerMiembros(): List<Miembros>
+  obtenerMiembro(int id): Miembros
+  actualizarMiembro(Miembros miembros)
+  }
+  class "AsistenciaEventosDAO" as daoasistenciae{
+  --
+  +registrarAsistencia(AsistenciaEventos asistenciaEventos)
+  +obtenerAsistencias():List<AsistenciaEventos>
+  }
+  class "EventosIglesiaDAO" as daoeventoigle{
+
+  --
+  +crearEventoIglesia(EventosIglesia eventosIglesia)
+  +obtenerEventosIglesia() : List<EventosIglesia>
+  }
+
+  class "BaseDAO" as daobase {
+  --
+  obtenerConexion(): Connection
+  insertar(String tabla, Map<String, Object> campos): boolean
+  actualizar(String tabla, Map<String, Object> campos, String condicion): boolean
+  obtener(String tabla, String condicion, RowMapper<T> rowMapper): T
+  obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
+  RowMapper<T>
+  }
+   class "ConexionBD" as bdconexion{
+     -String CONFIG_FILE
+     --
+     +Connection establecerConexion()
+    }
+  entity "Miembros" as miembros{
+      Integer id
+      String nombre
+      String apellido
+      Date fecha_nacimiento
+      String genero
+      String direccion
+      String correo_electronico
+      String telefono
+      Date fecha_bautismo
+      Boolean asistio_culto
+      --
+  }
+  entity "AsistenciaEventos" as easistenciae{
+      - int id;
+      - int miembro_id;
+      - int evento_id;
+      - Boolean asistio;
+      --
+  }
+  entity "EventosIglesia" as eeventosigle{
+        - Integer id;
+        - String nombre_evento;
+        - String descripcion;
+        - Date fecha_evento;
+        - String tipo_evento;
+        --
+  }
+
+  fasistencia --> ctrmiembro
+  fasistencia --> ctractividades
+  fasistencia --> ctrasistencia
+  ctrmiembro --> daomiembro
+  ctractividades --> daoasistenciae
+  ctractividades --> daoeventoigle
+  ctrasistencia --> daomiembro
+  ctrasistencia --> daoasistenciae
+  ctrasistencia --> daoeventoigle
+  daobase <|-- daomiembro
+  daobase <|-- daoasistenciae
+  daobase <|-- daoeventoigle
+  ctrmiembro ..> miembros
+  daomiembro ..> miembros
+  daobase --> bdconexion
+  daoasistenciae ..> easistenciae
+  ctractividades ..> easistenciae
+  daoeventoigle ..>eeventosigle
+  ctrasistencia..>eeventosigle
+}
+
+
+@enduml

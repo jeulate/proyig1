@@ -1,0 +1,70 @@
+@startuml
+
+actor PersonalIglesia
+
+participant "FAsistencia" as fasistencia
+participant "MiembrosController" as ctrmiembro
+participant "ActividadesController" as ctractividades
+participant "ParticipacionEventosController" as ctrasistencia
+participant "MiembrosDAO" as daomiembro
+participant "AsistenciaEventosDAO" as daoasistenciae
+participant "EventosIglesiaDAO" as daoeventoigle
+participant "BaseDAO" as daobase
+participant "ConexionBD" as bdconexion
+entity "Miembros" as miembros
+entity "AsistenciaEventos" as easistenciae
+entity "EventosIglesia" as eeventosigle
+
+activate PersonalIglesia
+
+PersonalIglesia -> fasistencia: Inicia Gestión de Asistencia y Participación
+
+activate fasistencia
+fasistencia -> ctrmiembro: Solicita cargar miembros
+activate ctrmiembro
+ctrmiembro -> daomiembro: Solicita obtener miembros
+activate daomiembro
+daomiembro -> daobase: Obtener todos los miembros
+activate daobase
+daobase -> bdconexion: Establecer conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daomiembro: Lista de miembros obtenida
+deactivate bdconexion
+deactivate daobase
+deactivate daomiembro
+ctrmiembro --> fasistencia: Lista de miembros obtenida
+deactivate ctrmiembro
+fasistencia -> ctractividades: Solicita cargar actividades
+activate ctractividades
+ctractividades -> daoeventoigle: Solicita obtener eventos de la iglesia
+activate daoeventoigle
+daoeventoigle -> daobase: Obtener todos los eventos de la iglesia
+activate daobase
+daobase -> bdconexion: Establecer conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daoeventoigle: Lista de eventos de la iglesia obtenida
+deactivate bdconexion
+deactivate daobase
+deactivate daoeventoigle
+ctractividades --> ctractividades: Lista de eventos de la iglesia obtenida
+deactivate ctractividades
+fasistencia -> fasistencia: Completa formulario
+fasistencia -> ctrasistencia: Solicita registrar asistencia
+
+activate ctrasistencia
+ctrasistencia -> daoasistenciae: Solicita registrar asistencia
+activate daoasistenciae
+daoasistenciae -> daobase: Agregar registro de asistencia
+activate daobase
+daobase -> bdconexion: Establecer conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daoasistenciae: Registro de asistencia agregado
+deactivate bdconexion
+deactivate daobase
+deactivate daoasistenciae
+deactivate ctrasistencia
+
+@enduml
