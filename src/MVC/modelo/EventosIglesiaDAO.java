@@ -31,6 +31,7 @@ public class EventosIglesiaDAO extends BaseDAO<EventosIglesia> {
                         Tablas.EVENTOS_IGLESIA.getTableName(),
                         rs ->
                                 new EventosIglesia(
+                                        rs.getInt("id"),
                                         rs.getString("nombre_evento"),
                                         rs.getString("descripcion"),
                                         rs.getDate("fecha_evento"),
