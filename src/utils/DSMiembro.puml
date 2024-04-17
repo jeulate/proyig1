@@ -1,0 +1,54 @@
+@startuml
+
+actor PersonalIglesia
+
+participant "FMiembro" as fmiembro
+participant "MiembrosController" as ctrmiembro
+participant "MiembrosDAO" as daomiembro
+participant "BaseDAO" as daobase
+participant "ConexionBD" as bdconexion
+entity "Miembros" as miembros
+
+activate PersonalIglesia
+
+PersonalIglesia -> fmiembro: Inicia Registro de Miembro
+
+activate fmiembro
+fmiembro -> ctrmiembro: Solicita registro de nuevo miembro
+activate ctrmiembro
+ctrmiembro -> daomiembro: Solicita validar persona
+activate daomiembro
+daomiembro -> daomiembro: Verifica persona
+daomiembro --> ctrmiembro: Persona válida
+deactivate daomiembro
+ctrmiembro -> daomiembro: Registra nuevo miembro
+daomiembro -> daobase: Agregar miembro
+activate daobase
+daobase -> bdconexion: Establecer conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daomiembro: Miembro agregado
+deactivate bdconexion
+deactivate daobase
+deactivate ctrmiembro
+deactivate fmiembro
+
+PersonalIglesia -> PersonalIglesia: Completa formulario
+PersonalIglesia -> ctrmiembro: Solicita mostrar miembros
+
+activate ctrmiembro
+ctrmiembro -> daomiembro: Solicita obtener miembros
+activate daomiembro
+daomiembro -> daobase: Obtener todos los miembros
+activate daobase
+daobase -> bdconexion: Establecer conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daomiembro: Lista de miembros obtenida
+deactivate bdconexion
+deactivate daobase
+deactivate daomiembro
+ctrmiembro --> PersonalIglesia: Muestra lista de miembros
+deactivate ctrmiembro
+
+@enduml

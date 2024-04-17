@@ -1,0 +1,39 @@
+@startuml
+
+actor PersonalIglesia
+
+participant "FActividades" as factividades
+participant "ActividadesController" as ctractividades
+participant "AsistenciaEventosDAO" as daoasistenciaev
+participant "EventosIglesiaDAO" as daoeventoigle
+participant "BaseDAO" as daobase
+participant "ConexionBD" as bdconexion
+entity "EventosIglesia" as eviglesia
+entity "AsistenciaEventos" as asisevento
+
+activate PersonalIglesia
+
+PersonalIglesia -> factividades: Inicia Gestión de Actividades
+
+activate factividades
+factividades -> ctractividades: Solicita obtener actividades
+activate ctractividades
+ctractividades -> daoeventoigle: Solicita obtener eventos de la iglesia
+activate daoeventoigle
+daoeventoigle -> daobase: Obtener todos los eventos de la iglesia
+activate daobase
+daobase -> bdconexion: Establecer conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daoeventoigle: Lista de eventos de la iglesia obtenida
+deactivate bdconexion
+deactivate daobase
+deactivate daoeventoigle
+ctractividades --> factividades: Lista de eventos de la iglesia obtenida
+deactivate ctractividades
+factividades -> factividades: Cargar eventos en la tabla
+deactivate factividades
+
+PersonalIglesia -> PersonalIglesia: Realiza acciones de gestión de actividades
+
+@enduml

@@ -1,0 +1,54 @@
+@startuml
+
+actor PersonalIglesia
+
+participant "FRelacionMiembros" as frelacion
+participant "MiembrosController" as ctrmiembro
+participant "MiembrosDAO" as daomiembro
+participant "RelacionesMiembrosController" as ctrrelacion
+participant "RelacionesDAO" as daorelaciones
+participant "BaseDAO" as daobase
+participant "ConexionBD" as bdconexion
+entity "Relaciones" as erelacion
+entity "Miembros" as miembros
+
+activate PersonalIglesia
+
+PersonalIglesia -> frelacion: Inicia Gestión de Relaciones
+
+activate frelacion
+frelacion -> ctrmiembro: Solicita cargar miembros
+activate ctrmiembro
+ctrmiembro -> daomiembro: Solicita obtener miembros
+activate daomiembro
+daomiembro -> daobase: Obtener todos los miembros
+activate daobase
+daobase -> bdconexion: Establecer conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daomiembro: Lista de miembros obtenida
+deactivate bdconexion
+deactivate daobase
+deactivate daomiembro
+ctrmiembro --> frelacion: Lista de miembros obtenida
+deactivate ctrmiembro
+frelacion -> frelacion: Cargar miembros en ComboBoxes
+frelacion -> ctrrelacion: Solicita obtener relaciones
+activate ctrrelacion
+ctrrelacion -> daorelaciones: Solicita obtener relaciones
+activate daorelaciones
+daorelaciones -> daobase: Obtener todas las relaciones
+activate daobase
+daobase -> bdconexion: Establecer conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daorelaciones: Lista de relaciones obtenida
+deactivate bdconexion
+deactivate daobase
+deactivate daorelaciones
+ctrrelacion --> frelacion: Lista de relaciones obtenida
+deactivate ctrrelacion
+
+PersonalIglesia -> PersonalIglesia: Realiza acciones de gestión de relaciones
+
+@enduml

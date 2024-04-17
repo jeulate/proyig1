@@ -1,0 +1,35 @@
+@startuml
+
+actor PersonalIglesia
+
+participant "FMinisterio" as fministerio
+participant "MinisteriosController" as ctrministerio
+participant "MinisteriosDAO" as daoministerios
+participant "BaseDAO" as daobase
+participant "ConexionBD" as bdconexion
+entity "Ministerios" as ministerios
+
+activate PersonalIglesia
+
+PersonalIglesia -> fministerio: Inicia Gestión de Ministerios
+
+activate fministerio
+fministerio -> ctrministerio: Solicita cargar ministerios
+activate ctrministerio
+ctrministerio -> daoministerios: Solicita obtener ministerios
+activate daoministerios
+daoministerios -> daobase: Obtener todos los ministerios
+activate daobase
+daobase -> bdconexion: Establecer conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daoministerios: Lista de ministerios obtenida
+deactivate bdconexion
+deactivate daobase
+deactivate daoministerios
+ctrministerio --> fministerio: Lista de ministerios obtenida
+deactivate ctrministerio
+
+PersonalIglesia -> fministerio: Realiza acciones de gestión de ministerios
+
+@enduml
