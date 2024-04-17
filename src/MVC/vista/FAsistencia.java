@@ -46,6 +46,7 @@ public class FAsistencia {
 
         cargarMiembros();
         cargarActividades();
+        asistioRadioButton.setSelected(true);
 
         String[] columnas = {"Miembro", "Actividad", "Tipo Actividad", "Fecha Actividad", "Asistio"};
         modeloTabla = new DefaultTableModel(columnas, 0);
@@ -58,19 +59,25 @@ public class FAsistencia {
         btnGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int indexMiembro = comboMiembros.getSelectedIndex();
-                Miembros miembro = modeloComboMiembros.getElementAt(indexMiembro);
-                int indexActividad = comboActividades.getSelectedIndex();
-                EventosIglesia actividad = modeloComboActividades.getElementAt(indexActividad);
-                boolean asistio = asistioRadioButton.isSelected();
+                try {
+                    int indexMiembro = comboMiembros.getSelectedIndex();
+                    Miembros miembro = modeloComboMiembros.getElementAt(indexMiembro);
+                    int indexActividad = comboActividades.getSelectedIndex();
+                    EventosIglesia actividad = modeloComboActividades.getElementAt(indexActividad);
+                    boolean asistio = asistioRadioButton.isSelected();
 
-                AsistenciaEventos asistencia = new AsistenciaEventos(
-                        miembro.getId(),
-                        actividad.getId(),
-                        asistio
-                );
+                    AsistenciaEventos asistencia = new AsistenciaEventos(
+                            miembro.getId(),
+                            actividad.getId(),
+                            asistio
+                    );
 
-                asistenciaController.registrarAsistencia(asistencia);
+                    asistenciaController.registrarAsistencia(asistencia);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al registrar asistencia: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
 
             }
         });
@@ -92,7 +99,7 @@ public class FAsistencia {
 
                     for (AsistenciaEventos asistencia : asistencias) {
                         actividad = getActividad(actividades, asistencia.getEvento_id());
-                        if(actividad == null) {
+                        if (actividad == null) {
                             nombreEvento = "";
                             fechaEvento = "";
                             tipoEvento = "";
@@ -107,7 +114,7 @@ public class FAsistencia {
                                 nombreEvento,
                                 tipoEvento,
                                 fechaEvento,
-                                asistencia.getAsistio() ? "Si": "No"
+                                asistencia.getAsistio() ? "Si" : "No"
                         });
                     }
 
@@ -179,11 +186,11 @@ public class FAsistencia {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(()->{
+        SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Gestion de Asistencia y Participación");
             frame.setContentPane(new FAsistencia().PPAsistencia);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(700,600);
+            frame.setSize(700, 600);
             frame.setVisible(true);
         });
     }

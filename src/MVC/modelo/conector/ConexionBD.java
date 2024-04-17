@@ -23,7 +23,7 @@ public class ConexionBD {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             conexion = DriverManager.getConnection(url, usuario, contrasena);
-            System.out.println("Conexión establecida con éxito");
+//            System.out.println("Conexión establecida con éxito");
         } catch (ClassNotFoundException e) {
             System.out.println("Error al cargar el driver JDBC: " + e.getMessage());
         } catch (SQLException e) {
