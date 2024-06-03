@@ -2,14 +2,18 @@
 package "P Registrar Ministerios" #FFF2CC {
   class "FMinisterio" as fministerio {
   -MinisteriosController ministeriosController
+
   -DefaultTableModel modeloTabla
   --
+  -actualizarTabla()
   -limpiarTabla(DefaultTableModel modelo)
   }
   class "MinisteriosController" as ctrministerio{
   -MinisteriosDAO ministeriosDAO
+  -Ministerios ministerioPrototipo
   --
   +crearMinisterio(Ministerios ministerio)
+  +Ministerios getPrototipoMinisterios()
   +obtenerMinisterios(): List<Ministerios>
   }
 
@@ -37,6 +41,12 @@ package "P Registrar Ministerios" #FFF2CC {
       -String nombre
       -String descripcion
       --
+      +Ministerios(String Nombre, String Descripcion)
+      +Clone(): Ministerios
+  }
+  interface "Cloneable" as Prototype{
+  --
+  +Clone(): Ministerios
   }
 
   fministerio --> ctrministerio
@@ -45,6 +55,7 @@ package "P Registrar Ministerios" #FFF2CC {
   ctrministerio ..> ministerios
   daoministerios ..> ministerios
   daobase --> bdconexion
+  Prototype<|.. ministerios : implements
 }
 
 

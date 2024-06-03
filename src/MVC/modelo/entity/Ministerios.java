@@ -1,6 +1,6 @@
 package MVC.modelo.entity;
 
-public class Ministerios {
+public class Ministerios implements Cloneable<Ministerios> {
     private String nombre;
     private String descripcion;
 
@@ -23,5 +23,10 @@ public class Ministerios {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    @Override
+    public Ministerios clone(){
+        return new Ministerios(this.nombre, this.descripcion);
     }
 }

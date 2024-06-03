@@ -37,13 +37,31 @@ public class FMinisterio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+//                    String nombre = txtNombre.getText();
+//                    String descripcion = txtDescripcion.getText();
+//                    // clonar el prototipo
+//                    Ministerios ministerioPrototipo = new Ministerios("Prototipo","Prototipo");
+//                    Ministerios ministerios = ministerioPrototipo.clone();
+//                    ministerios.setNombre(nombre);
+//                    ministerios.setDescripcion(descripcion);
+//                    ministeriosController.crearMinisterio(ministerios);
+//                    actualizarTabla();
+
                     String nombre = txtNombre.getText();
                     String descripcion = txtDescripcion.getText();
-                    Ministerios ministerios = new Ministerios(
-                            nombre,
-                            descripcion
-                    );
+                    // Clonar el prototipo desde el controlador
+                    Ministerios ministerios = ministeriosController.getPrototipoMinisterio();
+                    ministerios.setNombre(nombre);
+                    ministerios.setDescripcion(descripcion);
+
                     ministeriosController.crearMinisterio(ministerios);
+                    actualizarTabla();
+
+//                    Ministerios ministerios = new Ministerios(
+//                            nombre,
+//                            descripcion
+//                    );
+//                    ministeriosController.crearMinisterio(ministerios);
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -55,15 +73,7 @@ public class FMinisterio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<Ministerios> ministerios = ministeriosController.obtenerMinisterios();
-                    limpiarTabla(modeloTabla);
-                    for (Ministerios ministerio : ministerios) {
-                        modeloTabla.addRow(new Object[]{
-                                ministerio.getNombre(),
-                                ministerio.getDescripcion()
-                        });
-                    }
-                    modeloTabla.fireTableDataChanged();
+                    actualizarTabla();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error al mostrar ministerios: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -71,7 +81,22 @@ public class FMinisterio {
             }
         });
     }
-
+    private void actualizarTabla() {
+        try {
+            List<Ministerios> ministerios = ministeriosController.obtenerMinisterios();
+            limpiarTabla(modeloTabla);
+            for (Ministerios ministerio : ministerios) {
+                modeloTabla.addRow(new Object[]{
+                        ministerio.getNombre(),
+                        ministerio.getDescripcion()
+                });
+            }
+            modeloTabla.fireTableDataChanged();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al mostrar ministerios: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     private void limpiarTabla(DefaultTableModel modelo) {
         // Se elimina el contenido de la tabla fila por fila desde arriba
         while (modelo.getRowCount() > 0) {
