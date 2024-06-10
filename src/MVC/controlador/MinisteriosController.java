@@ -3,38 +3,43 @@ package MVC.controlador;
 import MVC.modelo.MinisteriosDAO;
 import MVC.modelo.entity.Ministerios;
 import MVC.modelo.entity.Relaciones;
+import MVC.modelo.entity.Cloneable;
 
 import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MinisteriosController {
+public class MinisteriosController implements Cloneable<Ministerios> {
 
     private MinisteriosDAO ministeriosDAO;
     private Ministerios ministerioPrototipo;
 
     public MinisteriosController() {
         this.ministeriosDAO = new MinisteriosDAO();
-        this.ministerioPrototipo = new Ministerios("Musical", "Instrumentistas, Coro, Vocalistas");
+        this.ministerioPrototipo = new Ministerios("Nombre por Defecto", "Descripcion por defecto");
     }
-    public Ministerios getPrototipoMinisterio() {
+    @Override
+    public Ministerios clone(){
         return ministerioPrototipo.clone();
     }
     public void crearMinisterio(Ministerios ministerio) {
-//        Ministerios nuevoMinisterio = ministerioPrototipo.clone();
-//        nuevoMinisterio.setNombre(ministerio.getNombre());
-//        nuevoMinisterio.setDescripcion(ministerio.getDescripcion());
-
-//        this.ministeriosDAO.agregarMinisterio(nuevoMinisterio);
         this.ministeriosDAO.agregarMinisterio(ministerio);
         JOptionPane.showMessageDialog(null, "Ministerio creado exitosamente");
         System.out.printf("Registro de Ministerio Exitoso");
-
-//    this.ministeriosDAO.agregarMinisterio(ministerio);
-
     }
 
+    public void clonaryCrearMinisterio(){
+        Ministerios ministerioclonado = this.clone();
+        this.ministeriosDAO.agregarMinisterio(ministerioclonado);
+        JOptionPane.showMessageDialog(null,"Ministerio Clonado y creado Exitosamente");
+        System.out.println("Reistro de Ministerio Clonado Exitoso");
+    }
+
+    public void actualizarMinisterio(Ministerios ministerios){
+            this.ministeriosDAO.actualizarMinisterios(ministerios);
+            JOptionPane.showMessageDialog(null,"Datos del Ministerio Actualizado");
+    }
     public List<Ministerios> obtenerMinisterios() {
         try {
             return this.ministeriosDAO.obtenerMinisterios();

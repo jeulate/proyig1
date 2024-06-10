@@ -28,9 +28,20 @@ public class MinisteriosDAO extends BaseDAO<Ministerios> {
                         Tablas.MINISTERIOS.getTableName(),
                         rs ->
                                 new Ministerios(
+                                        rs.getInt("ID"),
                                         rs.getString("nombre"),
                                         rs.getString("descripcion")));
 
         return ministerios;
+    }
+    public void actualizarMinisterios(Ministerios ministerios){
+        Map<String, Object> campos = new HashMap<>();
+        campos.put("nombre",ministerios.getNombre());
+        campos.put("descripcion",ministerios.getDescripcion());
+        try {
+            this.actualizar(Tablas.MINISTERIOS.getTableName(),campos,"id = " + ministerios.getId());
+        }catch (Exception e){
+            System.err.println("Error al actualizar ministerios: " + e.getMessage());
+        }
     }
 }

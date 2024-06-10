@@ -19,6 +19,8 @@ public class FMinisterio {
     private JPanel ppdatos;
     private JButton btnMostrar;
     private JTable tablaDatos;
+    private JButton btnClonaMinisterio;
+    private JButton btnActualizar;
 
     private DefaultTableModel modeloTabla;
 
@@ -26,7 +28,7 @@ public class FMinisterio {
 
         ministeriosController = new MinisteriosController();
 
-        String[] columnas = {"Ministerios", "Descripcion"};
+        String[] columnas = {"id","Ministerios", "Descripcion"};
         modeloTabla = new DefaultTableModel(columnas, 0);
         tablaDatos = new JTable(modeloTabla);
 
@@ -50,18 +52,12 @@ public class FMinisterio {
                     String nombre = txtNombre.getText();
                     String descripcion = txtDescripcion.getText();
                     // Clonar el prototipo desde el controlador
-                    Ministerios ministerios = ministeriosController.getPrototipoMinisterio();
+                    Ministerios ministerios = ministeriosController.clone();
                     ministerios.setNombre(nombre);
                     ministerios.setDescripcion(descripcion);
 
                     ministeriosController.crearMinisterio(ministerios);
                     actualizarTabla();
-
-//                    Ministerios ministerios = new Ministerios(
-//                            nombre,
-//                            descripcion
-//                    );
-//                    ministeriosController.crearMinisterio(ministerios);
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -80,6 +76,36 @@ public class FMinisterio {
                 }
             }
         });
+        btnClonaMinisterio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    ministeriosController.clonaryCrearMinisterio();
+                    actualizarTabla();
+                }catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al clonar ministerio: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        btnActualizar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int filaSelecciona = tablaDatos.getSelectedRow();
+                    int id = (int) modeloTabla.getValueAt(filaSelecciona,0);
+                    String nombre = (String) modeloTabla.getValueAt(filaSelecciona,1);
+                    String descripcion = (String) modeloTabla.getValueAt(filaSelecciona,2);
+                    Ministerios ministerio = new Ministerios(id,nombre,descripcion);
+                    ministeriosController.actualizarMinisterio(ministerio);
+                    actualizarTabla();
+
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al actualizar ministerio: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
     private void actualizarTabla() {
         try {
@@ -87,6 +113,7 @@ public class FMinisterio {
             limpiarTabla(modeloTabla);
             for (Ministerios ministerio : ministerios) {
                 modeloTabla.addRow(new Object[]{
+                        ministerio.getId(),
                         ministerio.getNombre(),
                         ministerio.getDescripcion()
                 });
@@ -102,6 +129,9 @@ public class FMinisterio {
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
+    }
+    public JPanel getPanel() {
+        return PPMinisterio;
     }
 
     public static void main(String[] args) {

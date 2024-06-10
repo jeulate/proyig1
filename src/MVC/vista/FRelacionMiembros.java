@@ -63,6 +63,7 @@ public class FRelacionMiembros {
                     );
 
                     relacionesMiembrosController.registrarNuevaRelacionMiembro(relaciones);
+                    actualizarTabla();
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -74,27 +75,7 @@ public class FRelacionMiembros {
         btnMostrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    List<Relaciones> relaciones = relacionesMiembrosController.obtenerRelaciones();
-                    List<Miembros> miembros = miembrosController.obtenerMiembros();
-
-                    limpiarTabla(modeloTabla);
-
-                    for (Relaciones relacion : relaciones) {
-
-                        modeloTabla.addRow(new Object[]{
-                                getNombreMiembro(miembros, relacion.getMiembro1_id()),
-                                getNombreMiembro(miembros, relacion.getMiembro2_id()),
-                                relacion.getTipo_relacion()
-                        });
-                    }
-
-                    modeloTabla.fireTableDataChanged();
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error al mostrar las relaciones: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                actualizarTabla();
             }
         });
     }
@@ -123,6 +104,30 @@ public class FRelacionMiembros {
         comboMiembro2.setModel(modeloComboMiembro2);
     }
 
+    private void actualizarTabla(){
+        try {
+            List<Relaciones> relaciones = relacionesMiembrosController.obtenerRelaciones();
+            List<Miembros> miembros = miembrosController.obtenerMiembros();
+
+            limpiarTabla(modeloTabla);
+
+            for (Relaciones relacion : relaciones) {
+
+                modeloTabla.addRow(new Object[]{
+                        getNombreMiembro(miembros, relacion.getMiembro1_id()),
+                        getNombreMiembro(miembros, relacion.getMiembro2_id()),
+                        relacion.getTipo_relacion()
+                });
+            }
+
+            modeloTabla.fireTableDataChanged();
+            actualizarTabla();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al mostrar las relaciones: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     private void limpiarTabla(DefaultTableModel modelo) {
         // Se elimina el contenido de la tabla fila por fila desde arriba
         while (modelo.getRowCount() > 0) {
@@ -146,6 +151,9 @@ public class FRelacionMiembros {
         return miembro.toString();
     }
 
+    public JPanel getPanel() {
+        return PPRelacion;
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Registro de Miembros");

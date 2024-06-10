@@ -73,6 +73,7 @@ public class FAsistencia {
                     );
 
                     asistenciaController.registrarAsistencia(asistencia);
+                    actualizarTabla();
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -85,41 +86,7 @@ public class FAsistencia {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<AsistenciaEventos> asistencias = asistenciaController.obtenerAsistencias();
-                    List<Miembros> miembros = miembrosController.obtenerMiembros();
-                    List<EventosIglesia> actividades = actividadesController.obtenerActividad();
-
-                    limpiarTabla(modeloTabla);
-
-                    EventosIglesia actividad;
-                    String nombreEvento;
-                    String fechaEvento;
-                    String tipoEvento;
-                    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
-                    for (AsistenciaEventos asistencia : asistencias) {
-                        actividad = getActividad(actividades, asistencia.getEvento_id());
-                        if (actividad == null) {
-                            nombreEvento = "";
-                            fechaEvento = "";
-                            tipoEvento = "";
-                        } else {
-                            nombreEvento = actividad.getNombre_evento();
-                            fechaEvento = formato.format(actividad.getFecha_evento());
-                            tipoEvento = actividad.getTipo_evento();
-                        }
-
-                        modeloTabla.addRow(new Object[]{
-                                getNombreMiembro(miembros, asistencia.getMiembro_id()),
-                                nombreEvento,
-                                tipoEvento,
-                                fechaEvento,
-                                asistencia.getAsistio() ? "Si" : "No"
-                        });
-                    }
-
-                    modeloTabla.fireTableDataChanged();
-
+                   actualizarTabla();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error al mostrar las asistencias: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -178,6 +145,47 @@ public class FAsistencia {
     }
 
 
+    private void actualizarTabla(){
+        try {
+            List<AsistenciaEventos> asistencias = asistenciaController.obtenerAsistencias();
+            List<Miembros> miembros = miembrosController.obtenerMiembros();
+            List<EventosIglesia> actividades = actividadesController.obtenerActividad();
+
+            limpiarTabla(modeloTabla);
+
+            EventosIglesia actividad;
+            String nombreEvento;
+            String fechaEvento;
+            String tipoEvento;
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+            for (AsistenciaEventos asistencia : asistencias) {
+                actividad = getActividad(actividades, asistencia.getEvento_id());
+                if (actividad == null) {
+                    nombreEvento = "";
+                    fechaEvento = "";
+                    tipoEvento = "";
+                } else {
+                    nombreEvento = actividad.getNombre_evento();
+                    fechaEvento = formato.format(actividad.getFecha_evento());
+                    tipoEvento = actividad.getTipo_evento();
+                }
+
+                modeloTabla.addRow(new Object[]{
+                        getNombreMiembro(miembros, asistencia.getMiembro_id()),
+                        nombreEvento,
+                        tipoEvento,
+                        fechaEvento,
+                        asistencia.getAsistio() ? "Si" : "No"
+                });
+            }
+
+            modeloTabla.fireTableDataChanged();
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al registrar asistencia: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     private void limpiarTabla(DefaultTableModel modelo) {
         // Se elimina el contenido de la tabla fila por fila desde arriba
         while (modelo.getRowCount() > 0) {
@@ -185,6 +193,9 @@ public class FAsistencia {
         }
     }
 
+    public JPanel getPanel() {
+        return PPAsistencia;
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Gestion de Asistencia y Participación");

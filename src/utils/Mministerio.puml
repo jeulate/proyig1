@@ -12,8 +12,9 @@ package "P Registrar Ministerios" #FFF2CC {
   -MinisteriosDAO ministeriosDAO
   -Ministerios ministerioPrototipo
   --
-  +crearMinisterio(Ministerios ministerio)
-  +Ministerios getPrototipoMinisterios()
+  +crearMinisterio(Ministerios ministerio): void
+  +clone(): Ministerios
+  +clonaryCrearMinisterios(): void
   +obtenerMinisterios(): List<Ministerios>
   }
 
@@ -51,11 +52,12 @@ package "P Registrar Ministerios" #FFF2CC {
 
   fministerio --> ctrministerio
   ctrministerio --> daoministerios
-  daobase <|-- daoministerios
+  daobase <|-- daoministerios : extends
   ctrministerio ..> ministerios
   daoministerios ..> ministerios
   daobase --> bdconexion
   Prototype<|.. ministerios : implements
+  ctrministerio ..|> Prototype : implements
 }
 
 

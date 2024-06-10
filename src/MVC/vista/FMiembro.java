@@ -102,6 +102,7 @@ public class FMiembro {
                     );
 
                     miembrosController.registrarNuevoMiembro(miembro);
+                    ActualizarTabla();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error al registrar miembro: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -114,25 +115,7 @@ public class FMiembro {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<Miembros> miembros = miembrosController.obtenerMiembros();
-
-                    limpiarTabla(modeloTabla);
-
-                    for (Miembros miembro : miembros) {
-                        modeloTabla.addRow(new Object[]{
-                                miembro.getId(),
-                                miembro.getNombre(),
-                                miembro.getApellido(),
-                                miembro.getFecha_nacimiento(),
-                                miembro.getGenero(),
-                                miembro.getDireccion(),
-                                miembro.getCorreo_electronico(),
-                                miembro.getTelefono()
-                        });
-                    }
-
-                    modeloTabla.fireTableDataChanged();
-
+                    ActualizarTabla();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error al obtener miembros: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -208,7 +191,7 @@ public class FMiembro {
                     );
 
                     miembrosController.actualizarMiembro(miembro);
-
+                    ActualizarTabla();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error al actualizar miembro: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -219,11 +202,40 @@ public class FMiembro {
         });
     }
 
+    private void ActualizarTabla(){
+        try {
+            List<Miembros> miembros = miembrosController.obtenerMiembros();
+
+            limpiarTabla(modeloTabla);
+
+            for (Miembros miembro : miembros) {
+                modeloTabla.addRow(new Object[]{
+                        miembro.getId(),
+                        miembro.getNombre(),
+                        miembro.getApellido(),
+                        miembro.getFecha_nacimiento(),
+                        miembro.getGenero(),
+                        miembro.getDireccion(),
+                        miembro.getCorreo_electronico(),
+                        miembro.getTelefono()
+                });
+            }
+
+            modeloTabla.fireTableDataChanged();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al mostrar miembros: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     private void limpiarTabla(DefaultTableModel modelo) {
         // Se elimina el contenido de la tabla fila por fila desde arriba
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
+    }
+
+    public JPanel getPanel() {
+        return PPMiembro;
     }
 
 

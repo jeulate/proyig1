@@ -64,7 +64,7 @@ public class FActividades {
                             tipoEvento
                     );
                     actividadesController.crearActividad(eventosIglesia);
-
+                    actualizarTabla();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error al registrar evento: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -76,20 +76,7 @@ public class FActividades {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<EventosIglesia> eventosIglesias = actividadesController.obtenerActividad();
-                    limpiarTabla(modeloTabla);
-                    for (EventosIglesia eventosIglesia : eventosIglesias) {
-
-                        modeloTabla.addRow(new Object[]{
-                                eventosIglesia.getNombre_evento(),
-                                eventosIglesia.getDescripcion(),
-                                eventosIglesia.getFecha_evento(),
-                                eventosIglesia.getTipo_evento()
-                        });
-                    }
-
-                    modeloTabla.fireTableDataChanged();
-
+                   actualizarTabla();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error al mostrar eventos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -98,11 +85,34 @@ public class FActividades {
         });
     }
 
+    private void actualizarTabla(){
+        try {
+            List<EventosIglesia> eventosIglesias = actividadesController.obtenerActividad();
+            limpiarTabla(modeloTabla);
+            for (EventosIglesia eventosIglesia : eventosIglesias) {
+
+                modeloTabla.addRow(new Object[]{
+                        eventosIglesia.getNombre_evento(),
+                        eventosIglesia.getDescripcion(),
+                        eventosIglesia.getFecha_evento(),
+                        eventosIglesia.getTipo_evento()
+                });
+            }
+
+            modeloTabla.fireTableDataChanged();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al mostrar las actividades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     private void limpiarTabla(DefaultTableModel modelo) {
         // Se elimina el contenido de la tabla fila por fila desde arriba
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
+    }
+    public JPanel getPanel() {
+        return PPActividades;
     }
 
     public static void main(String[] args) {
