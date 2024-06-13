@@ -121,7 +121,6 @@ public class FRelacionMiembros {
             }
 
             modeloTabla.fireTableDataChanged();
-            actualizarTabla();
 
         } catch (Exception ex) {
             ex.printStackTrace();

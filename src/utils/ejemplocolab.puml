@@ -1,6 +1,71 @@
 @startuml
-Alice -> Bob: Request
-Bob --> Alice: Response
+
+actor PersonalIglesia
+
+participant "FMinisterio" as fministerio
+participant "MinisteriosController" as ctrministerio
+participant "MinisteriosDAO" as daoministerios
+participant "BaseDAO" as daobase
+participant "ConexionBD" as bdconexion
+entity "Ministerios" as ministerios
+
+activate PersonalIglesia
+
+PersonalIglesia -> fministerio: Inicia Registrar Ministerio
+
+activate fministerio
+fministerio -> ctrministerio: Solicita crear ministerio
+activate ctrministerio
+
+ctrministerio -> ministerios: Crea prototipo de ministerio
+activate ministerios
+ministerios --> ctrministerio: Prototipo creado
+deactivate ministerios
+
+ctrministerio -> ctrministerio: Clona prototipo de ministerio
+ctrministerio -> ministerios: Clona ministerio
+activate ministerios
+ministerios --> ctrministerio: Ministerio clonado
+deactivate ministerios
+
+ctrministerio -> daoministerios: Agrega nuevo ministerio
+activate daoministerios
+daoministerios -> daobase: Inserta nuevo ministerio en la base de datos
+activate daobase
+daobase -> bdconexion: Establece conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daoministerios: Ministerio agregado
+deactivate bdconexion
+deactivate daobase
+deactivate daoministerios
+
+ctrministerio --> fministerio: Ministerio creado
+deactivate ctrministerio
+deactivate fministerio
+
+PersonalIglesia -> fministerio: Solicita obtener lista de ministerios
+
+activate fministerio
+fministerio -> ctrministerio: Solicita obtener ministerios
+activate ctrministerio
+ctrministerio -> daoministerios: Obtiene lista de ministerios
+activate daoministerios
+daoministerios -> daobase: Obtiene todos los ministerios
+activate daobase
+daobase -> bdconexion: Establece conexión
+activate bdconexion
+bdconexion --> daobase: Conexión establecida
+daobase --> daoministerios: Lista de ministerios obtenida
+deactivate bdconexion
+deactivate daobase
+daoministerios --> ctrministerio: Lista de ministerios obtenida
+deactivate daoministerios
+ctrministerio --> fministerio: Lista de ministerios obtenida
+deactivate ctrministerio
+fministerio -> fministerio: Actualiza tabla con ministerios
+deactivate fministerio
+
 @enduml
 
 

@@ -9,13 +9,35 @@ package "P Registrar Ministerios" #FFF2CC {
   -limpiarTabla(DefaultTableModel modelo)
   }
   class "MinisteriosController" as ctrministerio{
-  -MinisteriosDAO ministeriosDAO
   -Ministerios ministerioPrototipo
   --
-  +crearMinisterio(Ministerios ministerio): void
+  +MinisteriosController()
   +clone(): Ministerios
-  +clonaryCrearMinisterios(): void
+  +crearMinisterio(): void
+  +clonaryCrearMinisterio(): void
+  +actualizarMinisterio(Ministerios ministerio): void
   +obtenerMinisterios(): List<Ministerios>
+  }
+  abstract class MinisteriosTemplate{
+  # ministeriosDAO : "MinisteriosDAO"
+  --
+  +MinisteriosTemplate()
+  +procesarMinisterio(Ministerios ministerio): void
+  #guardarMinisterio(Ministerios ministerio): void
+  #mostrarMensajeExito():void
+  #mostrarMensajeError(Exception e): void
+  +obtenerMinisterios():List<Ministerios>
+  }
+
+  class "CrearMinisterio" as crMinisterio{
+    --
+    #guardarMinisterio(Ministerios ministerio): void
+    #mostrarMensajeExito(): void
+  }
+  class "ActualizarMinisterio" as actMinisterio{
+  --
+  #guardarMinisterio(Ministerios ministerio): void
+  #mostrarMensajeExito(): void
   }
 
   class "MinisteriosDAO" as daoministerios{
@@ -51,13 +73,15 @@ package "P Registrar Ministerios" #FFF2CC {
   }
 
   fministerio --> ctrministerio
-  ctrministerio --> daoministerios
   daobase <|-- daoministerios : extends
   ctrministerio ..> ministerios
-  daoministerios ..> ministerios
+  ctrministerio ..> MinisteriosTemplate
   daobase --> bdconexion
   Prototype<|.. ministerios : implements
   ctrministerio ..|> Prototype : implements
+  MinisteriosTemplate --> daoministerios
+  MinisteriosTemplate <|-- crMinisterio : extends
+  MinisteriosTemplate <|-- actMinisterio : extends
 }
 
 

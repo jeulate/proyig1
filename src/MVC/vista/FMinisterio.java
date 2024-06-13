@@ -39,16 +39,6 @@ public class FMinisterio {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-//                    String nombre = txtNombre.getText();
-//                    String descripcion = txtDescripcion.getText();
-//                    // clonar el prototipo
-//                    Ministerios ministerioPrototipo = new Ministerios("Prototipo","Prototipo");
-//                    Ministerios ministerios = ministerioPrototipo.clone();
-//                    ministerios.setNombre(nombre);
-//                    ministerios.setDescripcion(descripcion);
-//                    ministeriosController.crearMinisterio(ministerios);
-//                    actualizarTabla();
-
                     String nombre = txtNombre.getText();
                     String descripcion = txtDescripcion.getText();
                     // Clonar el prototipo desde el controlador
