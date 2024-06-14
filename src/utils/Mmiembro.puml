@@ -2,34 +2,37 @@
 package "P Registro Miembros" #FFF2CC {
   class "FMiembro" as fmiembro {
   - MiembrosController miembrosController
+  - modeloTabla:DefaultTableModel
   --
+  -actualizarTabla():void
   -limpiarTabla(DefaultTableModel modelo)
+  + getPanel(): JPanel
   }
   class "MiembrosController" as ctrmiembro{
-  MiembrosDAO miembrosDAO
+  -MiembrosDAO miembrosDAO
   --
-  registrarNuevoMiembro(Miembros miembro)
-  actualizarMiembro(Miembros miembro)
-  obtenerMiembros() : List<Miembros>
-  esPersonaValida(Miembros miembros): boolean
+  +registrarNuevoMiembro(Miembros miembro): void
+  +actualizarMiembro(Miembros miembro): void
+  +obtenerMiembros() : List<Miembros>
+  -esPersonaValida(Miembros miembros): boolean
   }
 
   class "MiembrosDAO" as daomiembro{
   --
-  agregarMiembro(Miembros miembros)
-  obtenerMiembros(): List<Miembros>
-  obtenerMiembro(int id): Miembros
-  actualizarMiembro(Miembros miembros)
+  +agregarMiembro(Miembros miembros):void
+  +obtenerMiembros(): List<Miembros>
+  +obtenerMiembro(int id): Miembros
+  +actualizarMiembro(Miembros miembros): void
   }
 
   class "BaseDAO" as daobase {
   --
-  obtenerConexion(): Connection
-  insertar(String tabla, Map<String, Object> campos): boolean
-  actualizar(String tabla, Map<String, Object> campos, String condicion): boolean
-  obtener(String tabla, String condicion, RowMapper<T> rowMapper): T
-  obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
-  RowMapper<T>
+  +obtenerConexion(): Connection
+  +insertar(String tabla, Map<String, Object> campos): boolean
+  +actualizar(String tabla, Map<String, Object> campos, String condicion): boolean
+  +obtener(String tabla, String condicion, RowMapper<T> rowMapper): T
+  +obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
+  +RowMapper<T>
   }
    class "ConexionBD" as bdconexion{
      -String CONFIG_FILE
@@ -37,17 +40,18 @@ package "P Registro Miembros" #FFF2CC {
      +Connection establecerConexion()
     }
   entity "Miembros" as miembros{
-      Integer id
-      String nombre
-      String apellido
-      Date fecha_nacimiento
-      String genero
-      String direccion
-      String correo_electronico
-      String telefono
-      Date fecha_bautismo
-      Boolean asistio_culto
-      --
+     -Integer id
+     -String nombre
+     -String apellido
+     -Date fecha_nacimiento
+     -String genero
+     -String direccion
+     -String correo_electronico
+     -String telefono
+     -Date fecha_bautismo
+     -Boolean asistio_culto
+      +toString():String
+
   }
 
   fmiembro --> ctrmiembro

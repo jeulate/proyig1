@@ -3,31 +3,33 @@ package "P Relacion Miembros" #FFF2CC {
   class "FRelacionMiembros" as frelacion {
   -MiembrosController miembrosController
   -RelacionesMiembrosController relacionesMiembrosController
-  List<Miembros> miembros1
-  List<Miembros> miembros2
+  +List<Miembros> miembros1
+  +List<Miembros> miembros2
   DefaultComboBoxModel<Miembros> modeloComboMiembro1
   DefaultComboBoxModel<Miembros> modeloComboMiembro2
   --
+  -actualizarTabla():void
   -limpiarTabla(DefaultTableModel modelo)
   -cargarMiembro1()
   -cargarMiembro2()
   - getNombreMiembro(List<Miembros> miembros, int idMiembro): String
+  + getPanel(): JPanel
   }
   class "MiembrosController" as ctrmiembro{
-  MiembrosDAO miembrosDAO
+  -MiembrosDAO miembrosDAO
   --
-  registrarNuevoMiembro(Miembros miembro)
-  actualizarMiembro(Miembros miembro)
-  obtenerMiembros() : List<Miembros>
-  esPersonaValida(Miembros miembros): boolean
+  +registrarNuevoMiembro(Miembros miembro): void
+    +actualizarMiembro(Miembros miembro): void
+    +obtenerMiembros() : List<Miembros>
+    -esPersonaValida(Miembros miembros): boolean
   }
 
   class "MiembrosDAO" as daomiembro{
   --
-  agregarMiembro(Miembros miembros)
-  obtenerMiembros(): List<Miembros>
-  obtenerMiembro(int id): Miembros
-  actualizarMiembro(Miembros miembros)
+  +agregarMiembro(Miembros miembros):void
+  +obtenerMiembros(): List<Miembros>
+  +obtenerMiembro(int id): Miembros
+  +actualizarMiembro(Miembros miembros): void
   }
 
   class "BaseDAO" as daobase {
@@ -40,9 +42,9 @@ package "P Relacion Miembros" #FFF2CC {
   +RowMapper<T>
   }
   class "RelacionesMiembrosController" as ctrrelacion{
-  -RelacionesDAO relacionesDAO
+  -relacionesDAO: RelacionesDAO
   --
-  +registrarNuevaRelacionMiembro(Relaciones relaciones)
+  +registrarNuevaRelacionMiembro(Relaciones relaciones): void
   +obtenerRelaciones(): List<Relaciones>
   }
 
@@ -73,7 +75,7 @@ package "P Relacion Miembros" #FFF2CC {
       -String telefono
      -Date fecha_bautismo
       -Boolean asistio_culto
-      --
+      +toString(): String
   }
 
   frelacion --> ctrmiembro

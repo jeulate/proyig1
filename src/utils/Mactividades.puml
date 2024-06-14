@@ -1,10 +1,12 @@
 @startuml
 package "P Registrar Actividades" #FFF2CC {
   class "FActividades" as factividades {
-  -ActividadesController actividadesController
-  -DefaultTableModel modeloTabla
+  -actividadesController: ActividadesController
+  -modeloTabla: DefaultTableModel
   --
+  -actualizarTabla():void
   -limpiarTabla(DefaultTableModel modelo)
+  -getPanel(): JPanel
   }
   class "ActividadesController" as ctractividades{
       -AsistenciaEventosDAO asistenciaEventosDAO
@@ -12,6 +14,7 @@ package "P Registrar Actividades" #FFF2CC {
   --
   +crearActividad(EventosIglesia eventosIglesia)
   +obtenerActividad(): List<EventosIglesia>
+  +exportarActividades(EventosIglesia eventosIglesia):void
   }
 
   class "AsistenciaEventosDAO" as daoasistenciaev{
@@ -35,27 +38,52 @@ package "P Registrar Actividades" #FFF2CC {
   +RowMapper<T>
   }
   class "ConexionBD" as bdconexion{
-   -String CONFIG_FILE
+   -CONFIG_FILE: String
    --
-   +Connection establecerConexion()
+      +establecerConexion(): Connection
   }
   entity "EventosIglesia" as eviglesia{
-        - String nombre_evento
-        - String descripcion
-        - Date fecha_evento
-        - String tipo_evento
+        - id: int
+        - nombre_evento: String
+        - descripcion: String
+        - fecha_evento: Date
+        - tipo_evento: String
       --
   }
    entity "AsistenciaEventos" as asisevento{
-        - int miembro_id
-        - int evento_id
-        - Boolean asistio
+        -id: int
+        -miembro_id: int
+        - evento_id: int
+        - asistio: Boolean
         --
+    }
+    interface Exportador{
+    --
+    +exportar(JTable table): void
+    }
+    abstract class ExportadorDecorador{
+    #decorador:Exportador
+    --
+    +ExportadorDecorador(Exportador decorador)
+    +exportar(JTable table):void
+    }
+    class "ExportadorPDF" as exPDF{
+    - filePath:String
+    --
+    +ExportadorPDF(String filePath)
+    +exportar(JTable table):void
+    }
+    class "ExportadorExcel" as exExcel{
+     -filePath:String
+     --
+     +ExportadorExcel(String filePath)
+     +exportar(JTable table):void
     }
 
   factividades --> ctractividades
   ctractividades --> daoasistenciaev
   ctractividades --> daoeventoigle
+  ctractividades --> Exportador
   daobase <|-- daoasistenciaev
   daobase <|-- daoeventoigle
   daobase -->bdconexion
@@ -63,6 +91,10 @@ package "P Registrar Actividades" #FFF2CC {
   ctractividades ..> asisevento
   daoasistenciaev ..> asisevento
   daoeventoigle ..> eviglesia
+  Exportador <|.. ExportadorDecorador
+  Exportador <|.. exPDF
+  Exportador <|.. exExcel
+  ExportadorDecorador o-- Exportador
 
 }
 

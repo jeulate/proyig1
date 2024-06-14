@@ -5,6 +5,7 @@ package "P Gestionar Asistencia y Part." #FFF2CC {
   - ActividadesController actividadesController
   - ParticipacionEventosController asistenciaController
   --
+  -actualizarTabla():void
   -limpiarTabla(DefaultTableModel modelo)
   -cargarMiembros()
   -cargarActividades()
@@ -12,12 +13,12 @@ package "P Gestionar Asistencia y Part." #FFF2CC {
   -getActividad(List<EventosIglesia> actividades, int idActividad) : EventosIglesia
   }
   class "MiembrosController" as ctrmiembro{
-  MiembrosDAO miembrosDAO
-  --
-  registrarNuevoMiembro(Miembros miembro)
-  actualizarMiembro(Miembros miembro)
-  obtenerMiembros() : List<Miembros>
-  esPersonaValida(Miembros miembros): boolean
+    -MiembrosDAO miembrosDAO
+    --
+    +registrarNuevoMiembro(Miembros miembro): void
+    +actualizarMiembro(Miembros miembro): void
+    +obtenerMiembros() : List<Miembros>
+    -esPersonaValida(Miembros miembros): boolean
   }
   class "ActividadesController" as ctractividades{
     -AsistenciaEventosDAO asistenciaEventosDAO
@@ -55,13 +56,13 @@ package "P Gestionar Asistencia y Part." #FFF2CC {
   }
 
   class "BaseDAO" as daobase {
-  --
-  obtenerConexion(): Connection
-  insertar(String tabla, Map<String, Object> campos): boolean
-  actualizar(String tabla, Map<String, Object> campos, String condicion): boolean
-  obtener(String tabla, String condicion, RowMapper<T> rowMapper): T
-  obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
-  RowMapper<T>
+ --
+   +obtenerConexion(): Connection
+   +insertar(String tabla, Map<String, Object> campos): boolean
+   +actualizar(String tabla, Map<String, Object> campos, String condicion): boolean
+   +obtener(String tabla, String condicion, RowMapper<T> rowMapper): T
+   +obtenerTodos(String tabla, RowMapper<T> rowMapper): List<T>
+   +RowMapper<T>
   }
    class "ConexionBD" as bdconexion{
      -String CONFIG_FILE
@@ -69,31 +70,31 @@ package "P Gestionar Asistencia y Part." #FFF2CC {
      +Connection establecerConexion()
     }
   entity "Miembros" as miembros{
-      Integer id
-      String nombre
-      String apellido
-      Date fecha_nacimiento
-      String genero
-      String direccion
-      String correo_electronico
-      String telefono
-      Date fecha_bautismo
-      Boolean asistio_culto
-      --
+      -Integer id
+       -String nombre
+       -String apellido
+       -Date fecha_nacimiento
+       -String genero
+       -String direccion
+       -String correo_electronico
+       -String telefono
+       -Date fecha_bautismo
+       -Boolean asistio_culto
+        +toString():String
   }
   entity "AsistenciaEventos" as easistenciae{
-      - int id;
-      - int miembro_id;
-      - int evento_id;
-      - Boolean asistio;
+      - id: int
+      - miembro_id: int
+      - evento_id: int
+      - asistio: boolean
       --
   }
   entity "EventosIglesia" as eeventosigle{
-        - Integer id;
-        - String nombre_evento;
-        - String descripcion;
-        - Date fecha_evento;
-        - String tipo_evento;
+        - id: int
+        - nombre_evento: String
+        - descripcion: String
+        - fecha_evento: Date
+        - tipo_evento: String
         --
   }
 

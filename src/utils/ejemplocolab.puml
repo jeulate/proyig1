@@ -2,71 +2,69 @@
 
 actor PersonalIglesia
 
-participant "FMinisterio" as fministerio
-participant "MinisteriosController" as ctrministerio
-participant "MinisteriosDAO" as daoministerios
+participant "FActividades" as factividades
+participant "ActividadesController" as ctractividades
+participant "AsistenciaEventosDAO" as daoasistenciaev
+participant "EventosIglesiaDAO" as daoeventoigle
 participant "BaseDAO" as daobase
 participant "ConexionBD" as bdconexion
-entity "Ministerios" as ministerios
+entity "EventosIglesia" as eviglesia
 
 activate PersonalIglesia
 
-PersonalIglesia -> fministerio: Inicia Registrar Ministerio
+PersonalIglesia -> factividades: Inicia registro de actividad
 
-activate fministerio
-fministerio -> ctrministerio: Solicita crear ministerio
-activate ctrministerio
-
-ctrministerio -> ministerios: Crea prototipo de ministerio
-activate ministerios
-ministerios --> ctrministerio: Prototipo creado
-deactivate ministerios
-
-ctrministerio -> ctrministerio: Clona prototipo de ministerio
-ctrministerio -> ministerios: Clona ministerio
-activate ministerios
-ministerios --> ctrministerio: Ministerio clonado
-deactivate ministerios
-
-ctrministerio -> daoministerios: Agrega nuevo ministerio
-activate daoministerios
-daoministerios -> daobase: Inserta nuevo ministerio en la base de datos
+activate factividades
+factividades -> ctractividades: Crear nueva actividad
+activate ctractividades
+ctractividades -> eviglesia: Crear instancia de EventosIglesia
+activate eviglesia
+deactivate eviglesia
+ctractividades -> daoeventoigle: Crear evento iglesia
+activate daoeventoigle
+daoeventoigle -> daobase: Insertar nuevo evento
 activate daobase
-daobase -> bdconexion: Establece conexión
+daobase -> bdconexion: Establecer conexión
 activate bdconexion
 bdconexion --> daobase: Conexión establecida
-daobase --> daoministerios: Ministerio agregado
+daobase --> daoeventoigle: Evento insertado
 deactivate bdconexion
 deactivate daobase
-deactivate daoministerios
+daoeventoigle --> ctractividades: Evento registrado
+deactivate daoeventoigle
+ctractividades --> factividades: Actividad creada
+deactivate ctractividades
 
-ctrministerio --> fministerio: Ministerio creado
-deactivate ctrministerio
-deactivate fministerio
+factividades -> factividades: Actualizar tabla
+factividades -> factividades: Limpiar tabla
 
-PersonalIglesia -> fministerio: Solicita obtener lista de ministerios
+PersonalIglesia -> factividades: Solicitar actividades
 
-activate fministerio
-fministerio -> ctrministerio: Solicita obtener ministerios
-activate ctrministerio
-ctrministerio -> daoministerios: Obtiene lista de ministerios
-activate daoministerios
-daoministerios -> daobase: Obtiene todos los ministerios
+activate factividades
+factividades -> ctractividades: Obtener lista de actividades
+activate ctractividades
+ctractividades -> daoeventoigle: Obtener eventos de la iglesia
+activate daoeventoigle
+daoeventoigle -> daobase: Consultar eventos
 activate daobase
-daobase -> bdconexion: Establece conexión
+daobase -> bdconexion: Establecer conexión
 activate bdconexion
 bdconexion --> daobase: Conexión establecida
-daobase --> daoministerios: Lista de ministerios obtenida
+daobase --> daoeventoigle: Lista de eventos obtenida
 deactivate bdconexion
 deactivate daobase
-daoministerios --> ctrministerio: Lista de ministerios obtenida
-deactivate daoministerios
-ctrministerio --> fministerio: Lista de ministerios obtenida
-deactivate ctrministerio
-fministerio -> fministerio: Actualiza tabla con ministerios
-deactivate fministerio
+daoeventoigle --> ctractividades: Lista de eventos
+deactivate daoeventoigle
+ctractividades --> factividades: Lista de actividades
+deactivate ctractividades
+factividades -> factividades: Actualizar tabla
+
+deactivate factividades
+deactivate PersonalIglesia
 
 @enduml
+
+
 
 
 

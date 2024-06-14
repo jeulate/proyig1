@@ -74,7 +74,6 @@ package "P Registrar Ministerios" #FFF2CC {
 
   fministerio --> ctrministerio
   daobase <|-- daoministerios : extends
-  ctrministerio ..> ministerios
   ctrministerio ..> MinisteriosTemplate
   daobase --> bdconexion
   Prototype<|.. ministerios : implements

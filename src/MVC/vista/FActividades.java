@@ -2,7 +2,6 @@ package MVC.vista;
 
 import MVC.controlador.ActividadesController;
 import MVC.modelo.entity.EventosIglesia;
-import MVC.modelo.entity.Relaciones;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -27,6 +26,8 @@ public class FActividades {
     private JPanel ppdatos;
     private JButton btnMostrar;
     private JTable tablaDatos;
+    private JButton btnExportarPDF;
+    private JButton btnExportarExcel;
 
     private DefaultTableModel modeloTabla;
 
@@ -80,6 +81,29 @@ public class FActividades {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error al mostrar eventos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        btnExportarPDF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int option = fileChooser.showSaveDialog(null);
+                if(option == JFileChooser.APPROVE_OPTION) {
+                    String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                    actividadesController.exportarActividades("PDF", filePath + ".pdf", tablaDatos);
+                }
+            }
+        });
+        btnExportarExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                actividadesController.exportarActividades("Excel");
+                JFileChooser fileChooser = new JFileChooser();
+                int option = fileChooser.showSaveDialog(null);
+                if(option == JFileChooser.APPROVE_OPTION) {
+                    String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                    actividadesController.exportarActividades("Excel", filePath + ".xlsx", tablaDatos);
                 }
             }
         });

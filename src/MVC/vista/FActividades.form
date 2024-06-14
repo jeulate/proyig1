@@ -110,10 +110,26 @@
                   </component>
                   <component id="2d059" class="javax.swing.JButton" binding="btnRegistrarEvento">
                     <constraints>
-                      <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <text value="CREAR EVENTO"/>
+                    </properties>
+                  </component>
+                  <component id="5f3e3" class="javax.swing.JButton" binding="btnExportarPDF">
+                    <constraints>
+                      <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="EXPORTAR A PDF"/>
+                    </properties>
+                  </component>
+                  <component id="24b7d" class="javax.swing.JButton" binding="btnExportarExcel">
+                    <constraints>
+                      <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="EXPORTAR A EXCEL"/>
                     </properties>
                   </component>
                 </children>

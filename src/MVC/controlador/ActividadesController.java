@@ -2,8 +2,11 @@ package MVC.controlador;
 
 import MVC.modelo.AsistenciaEventosDAO;
 import MVC.modelo.EventosIglesiaDAO;
+import MVC.modelo.ExportadorExcel;
+import MVC.modelo.ExportadorPDF;
 import MVC.modelo.entity.AsistenciaEventos;
 import MVC.modelo.entity.EventosIglesia;
+import MVC.modelo.entity.Exportador;
 import MVC.modelo.entity.Ministerios;
 
 import javax.swing.*;
@@ -34,4 +37,19 @@ public class ActividadesController {
             System.out.println("Error al obtener los Eventos de la Iglesia");
             return new ArrayList<EventosIglesia>();
         }
-    }}
+    }
+
+    public void exportarActividades(String formato, String filePath,JTable table){
+        Exportador exportador = null;
+
+        if ("PDF".equalsIgnoreCase(formato)) {
+            exportador = new ExportadorPDF(filePath);
+        } else if ("Excel".equalsIgnoreCase(formato)) {
+            exportador = new ExportadorExcel(filePath);
+        } else {
+            throw new IllegalArgumentException("Formato de exportación no soportado: " + formato);
+        }
+
+        exportador.exportar(table);
+    }
+}
